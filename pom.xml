@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
-    <name>Utility package for springmvc-spring-hibernate archetype</name>
+    <name>Utility package for my springmvc-spring-hibernate archetype</name>
     <url>http://rugal.ml</url>
     <developers>
         <developer>
