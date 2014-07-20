@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
-    <version>0.1</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Utility package for my springmvc-spring-hibernate archetype</name>
     <url>http://rugal.ml</url>
@@ -87,7 +87,7 @@
             </exclusions>
         </dependency>
         <!-- Hibernate end -->
-        
+
         <!-- spring framework begin -->
         <dependency>
             <artifactId>spring-core</artifactId>
@@ -269,26 +269,6 @@
                             <goals>
                                 <goal>jar</goal>
                             </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.7</version>
-                    <executions>
-                        <execution>
-                            <id>add-source</id>
-                            <phase>generate-sources</phase>
-                            <goals>
-                                <goal>add-source</goal>
-                            </goals>
-                            <configuration>
-                                <sources>
-                                    <source>src/main/java</source>
-                                    <!--<source>src/test/java</source>-->
-                                </sources>
-                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
