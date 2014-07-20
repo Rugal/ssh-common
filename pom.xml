@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
-    <version>0.1</version>
+    <version>0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Utility package for my springmvc-spring-hibernate archetype</name>
     <url>http://rugal.ml</url>
@@ -16,7 +16,7 @@
         <connection>scm:git:git@github.com:Rugal/ssh-common.git</connection>
         <url>git@github.com:Rugal/ssh-common.git</url>
         <developerConnection>scm:git:git@github.com:Rugal/ssh-common.git</developerConnection>
-      <tag>ssh-common-0.1</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <licenses>
