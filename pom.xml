@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <packaging>jar</packaging>
     <name>Utility package for my springmvc-spring-hibernate archetype</name>
     <url>http://rugal.ml</url>
@@ -17,7 +16,8 @@
         <connection>scm:git:git@github.com:Rugal/ssh-common.git</connection>
         <url>git@github.com:Rugal/ssh-common.git</url>
         <developerConnection>scm:git:git@github.com:Rugal/ssh-common.git</developerConnection>
-    </scm>
+      <tag>ssh-common-0.1</tag>
+  </scm>
 
     <licenses>
         <license>
@@ -278,7 +278,7 @@
                     <configuration>
                         <source>1.7</source>
                         <target>1.7</target>
-                        <compilerArgument/>
+                        <compilerArgument />
                     </configuration>
                 </plugin>
             </plugins>
