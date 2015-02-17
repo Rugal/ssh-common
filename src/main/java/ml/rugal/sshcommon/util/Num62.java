@@ -57,6 +57,7 @@ public class Num62
      * 长整数转换成N62
      *
      * @param l
+     *
      * @return
      */
     public static String longToN62(long l)
@@ -68,6 +69,7 @@ public class Num62
      * 长整型转换成N36
      *
      * @param l
+     *
      * @return
      */
     public static String longToN36(long l)
@@ -81,6 +83,7 @@ public class Num62
      * @param l
      * @param length
      *               如不足length长度，则补足0。
+     *
      * @return
      */
     public static String longToN62(long l, int length)
@@ -99,6 +102,7 @@ public class Num62
      * @param l
      * @param length
      *               如不足length长度，则补足0。
+     *
      * @return
      */
     public static String longToN36(long l, int length)
@@ -115,6 +119,7 @@ public class Num62
      * N62转换成整数
      *
      * @param n62
+     *
      * @return
      */
     public static long n62ToLong(String n62)
@@ -126,6 +131,7 @@ public class Num62
      * N36转换成整数
      *
      * @param n36
+     *
      * @return
      */
     public static long n36ToLong(String n36)
@@ -156,10 +162,5 @@ public class Num62
             }
         }
         throw new RuntimeException("N62(N36) Illegal character" + c);
-    }
-
-    public static void main(String[] args)
-    {
-        System.out.println(longToN62(Long.MAX_VALUE));
     }
 }
