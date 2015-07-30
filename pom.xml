@@ -4,10 +4,10 @@
     <artifactId>ssh-common</artifactId>
     <version>0.3</version>
     <packaging>jar</packaging>
-    <name>Utility package for my springmvc-spring-hibernate archetype</name>
+    <name>Common package for SSH archetype</name>
     <url>http://rugal.ga</url>
     <description>
-        This is my utility package serve for springmvc-spring-hibernate archetype
+        This utility package serves for springmvc-spring-hibernate archetype
     </description>
     <developers>
         <developer>
@@ -195,7 +195,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
-                <!--                <executions>
+                <executions>
                     <execution>
                         <id>sign-artifacts</id>
                         <phase>verify</phase>
@@ -203,7 +203,7 @@
                             <goal>sign</goal>
                         </goals>
                     </execution>
-                </executions>-->
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
