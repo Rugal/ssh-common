@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
  * Bean utility to update bean without getter and setter.
  *
  * @author Rugal Bernstein
+ * @since 0.1
  */
 public class BeanUtils
 {
@@ -17,10 +18,10 @@ public class BeanUtils
     /**
      * Get field value from bean without hinder of access.
      *
-     * @param object
-     * @param fieldName
+     * @param object    Bean to be operated on.
+     * @param fieldName The field to access.
      *
-     * @return
+     * @return Value of target field.
      */
     public static Object getFieldValue(final Object object, final String fieldName)
     {
@@ -38,7 +39,8 @@ public class BeanUtils
         try
         {
             result = field.get(object);
-        } catch (IllegalAccessException e)
+        }
+        catch (IllegalAccessException e)
         {
             throw new RuntimeException("never happend exception!", e);
         }
@@ -67,7 +69,8 @@ public class BeanUtils
         try
         {
             field.set(object, value);
-        } catch (IllegalAccessException e)
+        }
+        catch (IllegalAccessException e)
         {
             throw new RuntimeException("never happend exception!", e);
         }
@@ -77,8 +80,9 @@ public class BeanUtils
      * Get specific field from a object.
      *
      * @param object    to reflect as object
-     * @param fieldName
-     * @return
+     * @param fieldName field to get
+     *
+     * @return Field object
      */
     protected static Field getDeclaredField(final Object object, final String fieldName)
     {
@@ -91,8 +95,9 @@ public class BeanUtils
      * Get specific field from a class.
      *
      * @param clazz     class to reflect from
-     * @param fieldName
-     * @return
+     * @param fieldName field to get
+     *
+     * @return Field object
      */
     protected static Field getDeclaredField(final Class clazz, final String fieldName)
     {
@@ -106,7 +111,8 @@ public class BeanUtils
             try
             {
                 return superClass.getDeclaredField(fieldName);
-            } catch (NoSuchFieldException exception)
+            }
+            catch (NoSuchFieldException exception)
             {
                 //But it is fair well to have this exception.
             }
@@ -140,7 +146,7 @@ public class BeanUtils
      * @throws IllegalArgumentException  if argument is illegal
      * @throws InvocationTargetException if unable to invoke
      * @throws NoSuchMethodException     if no such method in class definition
-     * @throws SecurityException
+     * @throws SecurityException         If leak happens
      */
     public static Object getSimpleProperty(Object bean, String propName)
         throws IllegalArgumentException, SecurityException, IllegalAccessException, InvocationTargetException,
@@ -153,6 +159,7 @@ public class BeanUtils
      * This method is to generate getter method name.
      *
      * @param name this is field name.
+     *
      * @return this is name of getter method
      */
     private static String getReadMethod(String name)

@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
     <packaging>jar</packaging>
     <name>Utility package for my springmvc-spring-hibernate archetype</name>
     <url>http://rugal.ga</url>
@@ -12,7 +12,7 @@
     <developers>
         <developer>
             <name>Rugal Bernstein</name>
-            <email>ryujinwrath@gmail.com</email>
+            <email>rugal.bernstein.0@gmail.com</email>
         </developer>
     </developers>
     <scm>
@@ -195,7 +195,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
-                <executions>
+                <!--                <executions>
                     <execution>
                         <id>sign-artifacts</id>
                         <phase>verify</phase>
@@ -203,7 +203,7 @@
                             <goal>sign</goal>
                         </goals>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>

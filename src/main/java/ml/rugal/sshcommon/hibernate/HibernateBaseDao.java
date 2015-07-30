@@ -17,20 +17,24 @@ import org.springframework.util.Assert;
 
 /**
  *
- * An abstract hibernate DAO class that implement the HibernateSimpleDao, implemented its get and find method. <BR/>
+ * An abstract hibernate DAO class that implement the HibernateSimpleDao,
+ * implemented its get and find method. <BR>
  * In addition to this, this class provide abstract update method.
  *
  * @author Rugal Bernstein
  * @param <T>  This is the entity class for finder reflection
  * @param <ID> This is the ID type of entity class.
+ * <p>
+ * @since 0.1
  */
 @Transactional
 public abstract class HibernateBaseDao<T, ID extends Serializable> extends HibernateSimpleDao
 {
 
     /**
-     * @see Session.get(Class,Serializable)
+     * @see org.hibernate.Session#get(Class,Serializable)
      * @param id primary key to criteria for.
+     * <p>
      * @return get reflected object.
      */
     protected T get(ID id)
@@ -39,9 +43,10 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     }
 
     /**
-     * @see Session.get(Class,Serializable,LockMode)
+     * @see org.hibernate.Session#get(Class,Serializable,LockMode)
      * @param id   primary key to criteria for.
      * @param lock set lock mode in query
+     * <p>
      * @return get reflected object.
      */
     protected T get(ID id, boolean lock)
@@ -55,9 +60,10 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * Query for list of matched object by given properties.
      *
-     * @param property
-     * @param value
-     * @return
+     * @param property name of property
+     * @param value    match for value
+     * <p>
+     * @return A list of record that their property match value.
      */
     protected List<T> findByProperty(String property, Object value)
     {
@@ -67,12 +73,13 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
 
     /**
      * Query for list of matched object by given string data.
-     * For this is front matching method. <BR/>
+     * For this is front matching method. <BR>
      * Pattern: (value%)
      *
-     * @param property
-     * @param value
-     * @return
+     * @param property name of property
+     * @param value    match for value
+     * <p>
+     * @return A list of record that their property match value.
      */
     protected List<T> findByPropertyBefore(String property, Object value)
     {
@@ -82,12 +89,13 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
 
     /**
      * Query for list of matched object by given string data.
-     * For this is vague search.<BR/>
+     * For this is vague search.<BR>
      * Pattern: (%value%)
      *
-     * @param property
-     * @param value
-     * @return
+     * @param property name of property
+     * @param value    match for value
+     * <p>
+     * @return A list of record that their property match value.
      */
     protected List<T> findByPropertyVague(String property, Object value)
     {
@@ -97,12 +105,13 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
 
     /**
      * Query for list of matched object by given string data.
-     * For this is backend matching method.<BR/>
+     * For this is backend matching method.<BR>
      * Pattern: (%value)
      *
-     * @param property
-     * @param value
-     * @return
+     * @param property name of property
+     * @param value    match for value
+     * <p>
+     * @return A list of record that their property match value.
      */
     protected List<T> findByPropertyAfter(String property, Object value)
     {
@@ -113,9 +122,10 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * Query for unique object of matched by given criteria.
      *
-     * @param property
-     * @param value
-     * @return
+     * @param property name of property
+     * @param value    match for value
+     * <p>
+     * @return An record that its property match value.
      */
     protected T findUniqueByProperty(String property, Object value)
     {
@@ -129,6 +139,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      *
      * @param property The given property name
      * @param value    The given property value
+     * <p>
      * @return matched record number.
      */
     protected int countByProperty(String property, Object value)
@@ -143,8 +154,9 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * Similar to query, but predicate with criteria.
      *
-     * @param criterion
-     * @return
+     * @param criterion Given criteria to find.
+     * <p>
+     * @return A list of record that match the given criterion
      */
     protected List findByCriteria(Criterion... criterion)
     {
@@ -154,8 +166,9 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * To update entity table by bean updater.
      *
-     * @param updater
-     * @return
+     * @param updater The updater.
+     * <p>
+     * @return The updated record
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public T updateByUpdater(Updater<T> updater)
@@ -189,13 +202,14 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
             try
             {
                 value = BeanUtils.getSimpleProperty(bean,
-                    propName);
+                                                    propName);
                 if (!updater.isUpdate(propName, value))
                 {
                     continue;
                 }
                 cm.setPropertyValue(po, propName, value);
-            } catch (IllegalArgumentException | SecurityException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | HibernateException e)
+            }
+            catch (IllegalArgumentException | SecurityException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | HibernateException e)
             {
                 throw new RuntimeException(
                     "copy property to persistent object failed: '"
@@ -208,7 +222,8 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * Create a criteria to filter.
      *
      * @param criterions
-     * @return
+     *                   <p>
+     * @return AN criteria object.
      */
     protected Criteria createCriteria(Criterion... criterions)
     {

@@ -1,16 +1,11 @@
 ssh-common
 ==========
 
+Maven command:  
+
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
     <version>0.2</version>
 
 
-A utilful common package for integrating springmvc-spring-hibernate.   
-I extract `common` package from original `springmvc-spring-hibernate` archetype for better organize.  
-Wish this could better decoupling.
-
-##version log
-
-0.2: Remove Jackson related class files.  
-0.1: Initial commit.  
+For more details and usage, please visit my [post](http://rugal.ga/development/2014/07/20/ssh-common-for-my-own-archetype-released/).

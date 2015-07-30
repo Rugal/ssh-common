@@ -9,8 +9,8 @@ import java.util.Set;
  * Bind JSON data onto Map
  *
  * @author Rugal Bernstein
- * @param <K>
- * @param <V>
+ * @param <K> key type
+ * @param <V> value type
  */
 public class MapWapper<K, V>
 {

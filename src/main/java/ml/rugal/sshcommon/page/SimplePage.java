@@ -14,8 +14,10 @@ public class SimplePage implements Paginable
     /**
      * check the page number and give it valid number.
      *
-     * @param pageNo
-     * @return return 1 if page number is null or less than 1; Or just return the page number.
+     * @param pageNo page number to be specified, start from
+     * <p>
+     * @return return 1 if page number is null or less than 1; Or just return
+     *         the page number.
      */
     public static int cpn(Integer pageNo)
     {
@@ -28,9 +30,9 @@ public class SimplePage implements Paginable
 
     /**
      *
-     * @param pageNo
-     * @param pageSize
-     * @param totalCount
+     * @param pageNo     Page number
+     * @param pageSize   Size per page
+     * @param totalCount number of total records.
      */
     public SimplePage(int pageNo, int pageSize, int totalCount)
     {
@@ -41,7 +43,7 @@ public class SimplePage implements Paginable
     }
 
     /**
-     * Adjust page number if it is not accurate
+     * Adjust page number if it is not accurate.
      */
     public void adjustPageNo()
     {
@@ -115,7 +117,8 @@ public class SimplePage implements Paginable
         if (isLastPage())
         {
             return pageNo;
-        } else
+        }
+        else
         {
             return pageNo + 1;
         }
@@ -130,7 +133,8 @@ public class SimplePage implements Paginable
         if (isFirstPage())
         {
             return pageNo;
-        } else
+        }
+        else
         {
             return pageNo - 1;
         }
@@ -145,30 +149,33 @@ public class SimplePage implements Paginable
     /**
      * To set total count for a query.
      *
-     * @param totalCount
+     * @param totalCount Number of total records
      */
     public void setTotalCount(int totalCount)
     {
         if (totalCount < 0)
         {
             this.totalCount = 0;
-        } else
+        }
+        else
         {
             this.totalCount = totalCount;
         }
     }
 
     /**
-     * set page size to query, start from 1, will use default page size of 20 if parameter less than 1..
+     * set page size to query, start from 1, will use default page size of 20 if
+     * parameter less than 1..
      *
-     * @param pageSize
+     * @param pageSize Size of page.
      */
     public void setPageSize(int pageSize)
     {
         if (pageSize < 1)
         {
             this.pageSize = DEF_COUNT;
-        } else
+        }
+        else
         {
             this.pageSize = pageSize;
         }
@@ -176,16 +183,18 @@ public class SimplePage implements Paginable
 
     /**
      *
-     * Set page number for this query, if given parameter less than 1, adjust it to 1.
+     * Set page number for this query, if given parameter less than 1, adjust it
+     * to 1.
      *
-     * @param pageNo
+     * @param pageNo Page number
      */
     public void setPageNo(int pageNo)
     {
         if (pageNo < 1)
         {
             this.pageNo = 1;
-        } else
+        }
+        else
         {
             this.pageNo = pageNo;
         }

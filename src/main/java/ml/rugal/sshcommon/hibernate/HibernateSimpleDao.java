@@ -20,10 +20,12 @@ import org.springframework.util.Assert;
 
 /**
  *
- * This is abstract hibernate DAO, including basic operation such like find object by its primary key;
+ * This is abstract hibernate DAO, including basic operation such like find
+ * object by its primary key;
  * search for list of matched records by properties;
  *
  * @author Rugal Bernstein
+ * @since 0.1
  */
 public abstract class HibernateSimpleDao
 {
@@ -40,6 +42,7 @@ public abstract class HibernateSimpleDao
      *
      * @param hql    The template HQL
      * @param values the properties values to be set into the template HQL
+     * <p>
      * @return a list of matched record with original object type.
      */
     protected List find(String hql, Object... values)
@@ -52,6 +55,7 @@ public abstract class HibernateSimpleDao
      *
      * @param hql    The template HQL
      * @param values the properties values to be set into the template HQL
+     * <p>
      * @return Object matched record with original type.
      */
     protected Object findUnique(String hql, Object... values)
@@ -65,6 +69,7 @@ public abstract class HibernateSimpleDao
      * @param finder   Finder to query
      * @param pageNo   the page number to get, start from 1.
      * @param pageSize the records or objects size which each page could have
+     * <p>
      * @return A page which contain criteria matched object.
      */
     protected Pagination find(Finder finder, int pageNo, int pageSize)
@@ -93,6 +98,7 @@ public abstract class HibernateSimpleDao
      * Use finder to get a specific page.
      *
      * @param finder Finder to query
+     * <p>
      * @return A page which contain criteria matched object.
      */
     protected List find(Finder finder)
@@ -107,6 +113,7 @@ public abstract class HibernateSimpleDao
      *
      * @param queryString query string of HQL
      * @param values      properties for criteria
+     * <p>
      * @return A query object.
      */
     protected Query createQuery(String queryString, Object... values)
@@ -129,6 +136,7 @@ public abstract class HibernateSimpleDao
      * @param crit     the given criteria for query.
      * @param pageNo   the page number to get, start from 1.
      * @param pageSize the records or objects size which each page could have
+     * <p>
      * @return A page which contain criteria matched object.
      */
     protected Pagination findByCriteria(Criteria crit, int pageNo, int pageSize)
@@ -142,7 +150,8 @@ public abstract class HibernateSimpleDao
         {
             orderEntries = (List) BeanUtils.getFieldValue(impl, ORDER_ENTRIES);
             BeanUtils.setFieldValue(impl, ORDER_ENTRIES, new ArrayList());
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new RuntimeException(
                 "cannot read/write 'orderEntries' from CriteriaImpl", e);
@@ -170,7 +179,8 @@ public abstract class HibernateSimpleDao
         try
         {
             BeanUtils.setFieldValue(impl, ORDER_ENTRIES, orderEntries);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new RuntimeException(
                 "set 'orderEntries' to CriteriaImpl faild", e);
@@ -185,6 +195,7 @@ public abstract class HibernateSimpleDao
      * Counting row number.
      *
      * @param finder target object that contain HQL content to count.
+     * <p>
      * @return row number in a result set.
      */
     protected int countQueryResult(Finder finder)
@@ -203,7 +214,7 @@ public abstract class HibernateSimpleDao
     /**
      * Inject a session factory from spring application context.
      *
-     * @param sessionFactory
+     * @param sessionFactory The bean to be set.
      */
     @Resource
     public void setSessionFactory(SessionFactory sessionFactory)
@@ -212,7 +223,8 @@ public abstract class HibernateSimpleDao
     }
 
     /**
-     * Use {@code getCurrentSession()} from hibernate to get current hibernate session, thus there must be some opened session in container.
+     * Use {@code getCurrentSession()} from hibernate to get current hibernate
+     * session, thus there must be some opened session in container.
      *
      * @return Get current hibernate session.
      */

@@ -17,7 +17,7 @@ public class Updater<T>
     /**
      * Constructor of a updater, with default update mode.
      *
-     * @param bean
+     * @param bean The bean to be updated on.
      */
     public Updater(T bean)
     {
@@ -46,7 +46,8 @@ public class Updater<T>
      * Add property for includes.
      *
      * @param property property name
-     * @return
+     * <p>
+     * @return current updater
      */
     public Updater<T> include(String property)
     {
@@ -57,8 +58,9 @@ public class Updater<T>
     /**
      * Add property for excludes.
      *
-     * @param property
-     * @return
+     * @param property The property to be excluded.
+     * <p>
+     * @return current updater
      */
     public Updater<T> exclude(String property)
     {
@@ -67,13 +69,15 @@ public class Updater<T>
     }
 
     /**
-     * Check a property or a field needs update.<BR/>
-     * 1. In MAX mode will update properties that is not excluded<BR/>
-     * 2. In MIN mode will update properties that is included<BR/>
-     * 3. In MIDDLE mode will update properties that is value either null but included, or not null but not excluded.
+     * Check a property or a field needs update.<BR>
+     * 1. In MAX mode will update properties that is not excluded<BR>
+     * 2. In MIN mode will update properties that is included<BR>
+     * 3. In MIDDLE mode will update properties that is value either null but
+     * included, or not null but not excluded.
      *
-     * @param name
-     * @param value
+     * @param name  The property to be checked.
+     * @param value null value will be evaluated.
+     * <p>
      * @return Judge whether a property needs to update.
      */
     public boolean isUpdate(String name, Object value)
@@ -82,15 +86,18 @@ public class Updater<T>
         if (this.mode == UpdateMode.MAX)
         {
             needUpdate = !excludeProperties.contains(name);
-        } else if (this.mode == UpdateMode.MIN)
+        }
+        else if (this.mode == UpdateMode.MIN)
         {
             needUpdate = includeProperties.contains(name);
-        } else if (this.mode == UpdateMode.MIDDLE)
+        }
+        else if (this.mode == UpdateMode.MIDDLE)
         {
             if (value != null)
             {
                 needUpdate = !excludeProperties.contains(name);
-            } else
+            }
+            else
             {
                 needUpdate = includeProperties.contains(name);
             }

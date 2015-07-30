@@ -3,6 +3,7 @@ package ml.rugal.sshcommon.util;
 /**
  *
  * @author Rugal Bernstein
+ * @since 0.1
  *
  */
 public class Num62
@@ -30,12 +31,12 @@ public class Num62
     };
 
     /**
-     * 长整型用N36表示的最大长度
+     * Use N36 to represent maximum length of long
      */
     public static final int LONG_N36_LEN = 13;
 
     /**
-     * 长整型用N62表示的最大长度
+     * Use N62 to represent maximum length of long
      */
     public static final int LONG_N62_LEN = 11;
 
@@ -54,11 +55,11 @@ public class Num62
     }
 
     /**
-     * 长整数转换成N62
+     * Convert long type to N62.
      *
-     * @param l
+     * @param l The number to be converted.
      *
-     * @return
+     * @return A N62 number.
      */
     public static String longToN62(long l)
     {
@@ -66,11 +67,11 @@ public class Num62
     }
 
     /**
-     * 长整型转换成N36
+     * Convert long type to N36.
      *
-     * @param l
+     * @param l The number to be converted.
      *
-     * @return
+     * @return A N36 number.
      */
     public static String longToN36(long l)
     {
@@ -78,13 +79,12 @@ public class Num62
     }
 
     /**
-     * 长整数转换成N62
+     * Convert long type to N62.
      *
-     * @param l
-     * @param length
-     *               如不足length长度，则补足0。
+     * @param l      The number to be converted.
+     * @param length minimum length need to append.
      *
-     * @return
+     * @return A N62 number.
      */
     public static String longToN62(long l, int length)
     {
@@ -97,13 +97,12 @@ public class Num62
     }
 
     /**
-     * 长整型转换成N36
+     * Convert long type to N36.
      *
-     * @param l
-     * @param length
-     *               如不足length长度，则补足0。
+     * @param l      The number to be converted.
+     * @param length minimum length need to append.
      *
-     * @return
+     * @return A N36 number.
      */
     public static String longToN36(long l, int length)
     {
@@ -116,11 +115,11 @@ public class Num62
     }
 
     /**
-     * N62转换成整数
+     * Convert N62 to long type.
      *
-     * @param n62
+     * @param n62 The number to be converted.
      *
-     * @return
+     * @return A long type number.
      */
     public static long n62ToLong(String n62)
     {
@@ -128,11 +127,11 @@ public class Num62
     }
 
     /**
-     * N36转换成整数
+     * Convert N36 to long type.
      *
-     * @param n36
+     * @param n36 The number to be converted.
      *
-     * @return
+     * @return A long type number.
      */
     public static long n36ToLong(String n36)
     {

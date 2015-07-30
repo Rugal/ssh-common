@@ -12,6 +12,7 @@ import org.springframework.web.servlet.HandlerMapping;
 /**
  *
  * @author Rugal Bernstein
+ * @since 0.1
  */
 public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumentResolver
 {
@@ -19,14 +20,15 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
     /**
      * Get parameter with specific prefix, including variable/uri/parameter
      *
-     * @param namePrefix
-     * @param request
-     * @param subPrefix
-     * @return
-     * @subPrefix whether prefix need to truncated
+     * @param namePrefix prefix of a parameter
+     * @param request    Data in request
+     * @param subPrefix  whether prefix need to truncated
+     *
+     * @return map of values that matched prefix
+     *
      */
     protected Map<String, String[]> getPrefixParameterMap(String namePrefix,
-        NativeWebRequest request, boolean subPrefix)
+                                                          NativeWebRequest request, boolean subPrefix)
     {
         Map<String, String[]> result = new HashMap<String, String[]>();
 
@@ -46,14 +48,15 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
                         continue;
                     }
                     result.put(name.substring(namePrefixLength + 1), new String[]
-                    {
-                        variables.get(name)
+                           {
+                               variables.get(name)
                     });
-                } else
+                }
+                else
                 {
                     result.put(name, new String[]
-                    {
-                        variables.get(name)
+                           {
+                               variables.get(name)
                     });
                 }
             }
@@ -74,8 +77,9 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
                         continue;
                     }
                     result.put(name.substring(namePrefixLength + 1), request
-                        .getParameterValues(name));
-                } else
+                               .getParameterValues(name));
+                }
+                else
                 {
                     result.put(name, request.getParameterValues(name));
                 }

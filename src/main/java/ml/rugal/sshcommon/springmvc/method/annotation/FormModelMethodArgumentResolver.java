@@ -19,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import ml.rugal.sshcommon.springmvc.bind.annotation.FormModel;
+import ml.rugal.sshcommon.springmvc.util.MapWapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -41,8 +43,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.util.WebUtils;
-import ml.rugal.sshcommon.springmvc.bind.annotation.FormModel;
-import ml.rugal.sshcommon.springmvc.util.MapWapper;
 
 /**
  * For form data binding usage.
@@ -78,25 +78,30 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
      * with request values via data binding and optionally validated
      * if {@code @java.validation.Valid} is present on the argument.
      *
-     * @param parameter
-     * @param mavContainer
-     * @param request
-     * @param binderFactory
-     * @return
+     * @param parameter     parameter to be used
+     * @param mavContainer  view container
+     * @param request       coming request
+     * @param binderFactory data binding factory
+     *
+     * @return resolved object.
+     *
      * @throws org.springframework.validation.BindException
      *                                                      if data binding and validation result in an error
-     *                                                      and the next method parameter is not of type {@link org.springframework.validation.Errors}.
-     * @throws Exception                                    if WebDataBinder initialization fails.
+     *                                                      and the next method parameter is not of type
+     *                                                      {@link org.springframework.validation.Errors}.
+     * @throws Exception                                    if WebDataBinder
+     *                                                      initialization fails.
      */
     @Override
     public final Object resolveArgument(MethodParameter parameter,
-        ModelAndViewContainer mavContainer,
-        NativeWebRequest request, WebDataBinderFactory binderFactory) throws BindException, Exception
+                                        ModelAndViewContainer mavContainer,
+                                        NativeWebRequest request, WebDataBinderFactory binderFactory) throws BindException, Exception
     {
         String name = parameter.getParameterAnnotation(FormModel.class).value();
 
         Object target = (mavContainer.containsAttribute(name))
-            ? mavContainer.getModel().get(name) : createAttribute(name, parameter, binderFactory, request);
+            ? mavContainer.getModel().get(name)
+            : createAttribute(name, parameter, binderFactory, request);
 
         WebDataBinder binder = binderFactory.createBinder(request, target, name);
         target = binder.getTarget();
@@ -129,11 +134,15 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
      * @param parameter     the method parameter
      * @param binderFactory for creating WebDataBinder instance
      * @param request       the current request
+     *
      * @return the created model attribute, never {@code null}
-     * @throws java.lang.Exception
+     *
+     * @throws java.lang.Exception error when creating attribute
      */
-    protected Object createAttribute(String attributeName, MethodParameter parameter,
-        WebDataBinderFactory binderFactory, NativeWebRequest request) throws Exception
+    protected Object createAttribute(String attributeName,
+                                     MethodParameter parameter,
+                                     WebDataBinderFactory binderFactory,
+                                     NativeWebRequest request) throws Exception
     {
         String value = getRequestValueForAttribute(attributeName, request);
 
@@ -172,6 +181,7 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
      *
      * @param attributeName the model attribute name
      * @param request       the current request
+     *
      * @return the request value to try to convert or {@code null}
      */
     protected String getRequestValueForAttribute(String attributeName, NativeWebRequest request)
@@ -180,10 +190,12 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
         if (StringUtils.hasText(variables.get(attributeName)))
         {
             return variables.get(attributeName);
-        } else if (StringUtils.hasText(request.getParameter(attributeName)))
+        }
+        else if (StringUtils.hasText(request.getParameter(attributeName)))
         {
             return request.getParameter(attributeName);
-        } else
+        }
+        else
         {
             return null;
         }
@@ -194,18 +206,24 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
      * variable, request parameter) using type conversion.
      * <p>
      * The default implementation converts only if there a registered
-     * {@link org.springframework.core.convert.converter.Converter} that can perform the conversion.
+     * {@link org.springframework.core.convert.converter.Converter} that can
+     * perform the conversion.
      *
      * @param sourceValue   the source value to create the model attribute from
      * @param attributeName the name of the attribute, never {@code null}
      * @param parameter     the method parameter
      * @param binderFactory for creating WebDataBinder instance
      * @param request       the current request
+     *
      * @return the created model attribute, or {@code null}
-     * @throws Exception
+     *
+     * @throws Exception error when creating attribute
      */
-    protected Object createAttributeFromRequestValue(String sourceValue, String attributeName,
-        MethodParameter parameter, WebDataBinderFactory binderFactory, NativeWebRequest request) throws Exception
+    protected Object createAttributeFromRequestValue(String sourceValue,
+                                                     String attributeName,
+                                                     MethodParameter parameter,
+                                                     WebDataBinderFactory binderFactory,
+                                                     NativeWebRequest request) throws Exception
     {
         DataBinder binder = binderFactory.createBinder(request, null, attributeName);
         ConversionService conversionService = binder.getConversionService();
@@ -225,19 +243,23 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
     /**
      * {@inheritDoc}
      * <p>
-     * Downcast {@link org.springframework.web.bind.WebDataBinder} to {@link org.springframework.web.bind.ServletRequestDataBinder} before binding.
+     * Downcast {@link org.springframework.web.bind.WebDataBinder} to
+     * {@link org.springframework.web.bind.ServletRequestDataBinder} before
+     * binding.
      *
-     * @param mavContainer
-     * @param binderFactory
-     * @param binder
-     * @param request
-     * @param parameter
-     * @throws Exception
-     * @see org.springframework.web.servlet.mvc.method.annotation.ServletRequestDataBinderFactory
+     * @param mavContainer  view container
+     * @param binderFactory data binder factory
+     * @param binder        Data binder
+     * @param request       coming HTTP request
+     * @param parameter     parameter to be used
+     *
+     * @throws Exception error when creating attribute
+     * @see
+     * org.springframework.web.servlet.mvc.method.annotation.ServletRequestDataBinderFactory
      */
     protected void bindRequestParameters(ModelAndViewContainer mavContainer,
-        WebDataBinderFactory binderFactory, WebDataBinder binder, NativeWebRequest request,
-        MethodParameter parameter) throws Exception
+                                         WebDataBinderFactory binderFactory, WebDataBinder binder, NativeWebRequest request,
+                                         MethodParameter parameter) throws Exception
     {
 
         Map<String, Boolean> hasProcessedPrefixMap = new HashMap<>();
@@ -274,7 +296,8 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                 if (hasProcessedPrefixMap.containsKey(prefixName))
                 {
                     continue;
-                } else
+                }
+                else
                 {
                     hasProcessedPrefixMap.put(prefixName, Boolean.TRUE);
                 }
@@ -290,7 +313,8 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                         {
                             targetList.add(simpleBinder.convertIfNecessary(value, componentType));
                         }
-                    } else
+                    }
+                    else
                     {  //处理如 array[0]=1&array[1]=2的情况
                         int index = Integer.valueOf(matcher.group(1));
 
@@ -299,9 +323,10 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                             growCollectionIfNecessary(targetList, index);
                         }
                         targetList.set(index, simpleBinder
-                            .convertIfNecessary(paramValues.values(), componentType));
+                                       .convertIfNecessary(paramValues.values(), componentType));
                     }
-                } else
+                }
+                else
                 { //处理如 votes[1].title=votes[1].title&votes[0].title=votes[0].title&votes[0].id=0&votes[1].id=1
                     Object component = null;
                     //先查找老的 即已经在集合中的数据（而不是新添加一个）
@@ -349,7 +374,8 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                 target.clear();
                 target.addAll(targetList);
             }
-        } else if (MapWapper.class.isAssignableFrom(targetType))
+        }
+        else if (MapWapper.class.isAssignableFrom(targetType))
         {
 
             Type type = parameter.getGenericParameterType();
@@ -378,7 +404,8 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                 if (hasProcessedPrefixMap.containsKey(prefixName))
                 {
                     continue;
-                } else
+                }
+                else
                 {
                     hasProcessedPrefixMap.put(prefixName, Boolean.TRUE);
                 }
@@ -394,7 +421,8 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                     {
                         target.put(keyValue, simpleBinder.convertIfNecessary(value, valueType));
                     }
-                } else
+                }
+                else
                 {
 
                     Object component = target.get(keyValue);
@@ -418,7 +446,8 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                     }
                 }
             }
-        } else
+        }
+        else
         {//bind model
             ServletRequestDataBinder servletBinder = (ServletRequestDataBinder) binder;
             servletBinder.bind(servletRequest);
@@ -475,7 +504,7 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
     }
 
     private ServletRequest prepareServletRequest(Object target, NativeWebRequest request,
-        MethodParameter parameter)
+                                                 MethodParameter parameter)
     {
 
         String modelPrefixName = parameter.getParameterAnnotation(FormModel.class).value();
@@ -494,7 +523,8 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
                     .getName(), modelPrefixName), file));
             }
             mockRequest = mockMultipartRequest;
-        } else
+        }
+        else
         {
             mockRequest = new MockHttpServletRequest();
         }
@@ -628,13 +658,15 @@ public class FormModelMethodArgumentResolver extends BaseMethodArgumentResolver
     }
 
     /**
-     * Whether to raise a {@link org.springframework.validation.BindException} on bind or validation errors.
+     * Whether to raise a {@link org.springframework.validation.BindException}
+     * on bind or validation errors.
      * The default implementation returns {@code true} if the next method
      * argument is not of type {@link org.springframework.validation.Errors}.
      *
      * @param binder    the data binder used to perform data binding
      * @param parameter the method argument
-     * @return
+     *
+     * @return If throw exception is needed.
      */
     protected boolean isBindExceptionRequired(WebDataBinder binder, MethodParameter parameter)
     {
