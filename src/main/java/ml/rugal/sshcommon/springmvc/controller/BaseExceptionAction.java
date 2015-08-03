@@ -5,11 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 import ml.rugal.sshcommon.springmvc.util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -178,27 +176,7 @@ public class BaseExceptionAction
     }
 
     /**
-     * Mapping for 500
-     *
-     * @param req The request that threw exception
-     * @param e   Bad exception that was thrown in.
-     *
-     * @return An error message.
-     */
-    @ResponseBody
-    @ExceptionHandler(
-        {
-            ConversionNotSupportedException.class, HttpMessageNotWritableException.class,
-        })
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Message internalServerError(HttpServletRequest req, Exception e)
-    {
-        LOG.error(e.getMessage(), e);
-        return Message.failMessage(INTERNAL_SERVER_ERROR);
-    }
-
-    /**
-     * Mapping for other exceptions
+     * Mapping for 500 and all other exceptions.
      *
      * @param req The request that threw exception
      * @param e   Bad exception that was thrown in.
@@ -210,10 +188,10 @@ public class BaseExceptionAction
         {
             Exception.class
         })
-    @ResponseStatus(HttpStatus.SEE_OTHER)
-    public Message otherException(HttpServletRequest req, Exception e)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Message internalServerError(HttpServletRequest req, Exception e)
     {
-        LOG.error("Other exception", e);
-        return Message.failMessage(e.getMessage());
+        LOG.error(e.getMessage(), e);
+        return Message.failMessage(INTERNAL_SERVER_ERROR);
     }
 }
