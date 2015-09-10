@@ -178,6 +178,12 @@
             <version>1.7.5</version>
         </dependency>
         <!-- Logger end -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <snapshotRepository>

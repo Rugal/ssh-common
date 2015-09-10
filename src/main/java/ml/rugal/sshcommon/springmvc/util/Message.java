@@ -1,5 +1,7 @@
 package ml.rugal.sshcommon.springmvc.util;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *
  * Message delivery class.
@@ -23,10 +25,13 @@ public class Message
 
     public static final String FAIL = "FAIL";
 
+    @Expose
     private String status = FAIL;
 
+    @Expose
     private String message = null;
 
+    @Expose
     private Object data = null;
 
     private Message()
