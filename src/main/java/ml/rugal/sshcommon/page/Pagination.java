@@ -1,5 +1,6 @@
 package ml.rugal.sshcommon.page;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class Pagination extends SimplePage implements Serializable,
         return (pageNo - 1) * pageSize;
     }
 
+    @Expose
     private List<?> list;
 
     public List<?> getList()

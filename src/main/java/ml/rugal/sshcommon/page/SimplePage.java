@@ -1,5 +1,7 @@
 package ml.rugal.sshcommon.page;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *
  * @author Rugal Bernstein
@@ -140,10 +142,13 @@ public class SimplePage implements Paginable
         }
     }
 
+    @Expose
     protected int totalCount = 0;
 
+    @Expose
     protected int pageSize = 20;
 
+    @Expose
     protected int pageNo = 1;
 
     /**
