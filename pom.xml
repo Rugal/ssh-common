@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
     <packaging>jar</packaging>
     <name>Common package for SSH archetype</name>
     <url>http://rugal.ga</url>
@@ -170,7 +170,6 @@
             </exclusions>
         </dependency>
         <!-- spring framework end -->
-
         <!-- Logger begin -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -179,10 +178,14 @@
         </dependency>
         <!-- Logger end -->
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.10</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.3</version>
-            <type>jar</type>
+            <version>2.7</version>
         </dependency>
     </dependencies>
     <distributionManagement>

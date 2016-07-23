@@ -11,8 +11,7 @@ public interface Paginable
     public int getTotalCount();
 
     /**
-     * Get the total page number of a query.
-     * to see total row number divided by page size per page.
+     * Get the total page number of a query. to see total row number divided by page size per page.
      *
      * @return get total page a query could have.
      */
@@ -23,16 +22,16 @@ public interface Paginable
     public int getPageNo();
 
     /**
-     * Judge if this is the first(1) page.
+     * See if this is the first(1) page.
      *
      * @return true if current page if the first one.
      */
     public boolean isFirstPage();
 
     /**
-     * To see if current page is the last page if page number exceeded total page number.
+     * To see if current page number is equal or greater than last page number.
      *
-     * @return true if current page if the last one.
+     * @return true if current page is equal or greater than last page number.
      */
     public boolean isLastPage();
 

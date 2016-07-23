@@ -1,10 +1,8 @@
 package ml.rugal.sshcommon.springmvc.controller;
 
-import java.text.MessageFormat;
 import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import ml.rugal.sshcommon.springmvc.util.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -29,6 +27,7 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
  *
  * @author Rugal Bernstein
  */
+@Slf4j
 @ControllerAdvice
 @Controller
 public class BaseExceptionAction
@@ -46,30 +45,24 @@ public class BaseExceptionAction
 
     private static final String INTERNAL_SERVER_ERROR = "500 (Internal Server Error)";
 
-    private static final Logger LOG = LoggerFactory.getLogger(BaseExceptionAction.class.getName());
-
     /**
      *
-     * This method is to address no handler request, throw exception into 404
-     * exception advisor
+     * This method is to address no handler request, throw exception into 404 exception advisor
      *
      * @param request The request that threw exception
      *
      * @return An error message.
      *
-     * @throws NoSuchRequestHandlingMethodException Throw this exception so to
-     *                                              handle exception error to
-     *                                              404 exception handler.
+     * @throws NoSuchRequestHandlingMethodException Throw this exception so to handle exception
+     *                                              error to 404 exception handler.
      */
     @RequestMapping("/**")
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Message PathNotFoundHandler(HttpServletRequest request) throws NoSuchRequestHandlingMethodException
     {
-        LOG
-            .warn(MessageFormat
-                .format("{0} occured, request URL: {1}, request host: {2}", NOT_FOUND, request
-                        .getRequestURI(), request.getRemoteAddr()));
+        LOG.warn(String.format("{%s occured, request URL: %s, request host: %s",
+                               NOT_FOUND, request.getRequestURI(), request.getRemoteAddr()));
         throw new NoSuchRequestHandlingMethodException(request);
     }
 
@@ -124,10 +117,7 @@ public class BaseExceptionAction
      * @return An error message.
      */
     @ResponseBody
-    @ExceptionHandler(
-        {
-            HttpRequestMethodNotSupportedException.class
-        })
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public Message methodNotAllowed(HttpServletRequest req, Exception e)
     {
@@ -144,10 +134,7 @@ public class BaseExceptionAction
      * @return An error message.
      */
     @ResponseBody
-    @ExceptionHandler(
-        {
-            HttpMediaTypeNotAcceptableException.class
-        })
+    @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public Message notAcceptable(HttpServletRequest req, Exception e)
     {
@@ -164,10 +151,7 @@ public class BaseExceptionAction
      * @return An error message.
      */
     @ResponseBody
-    @ExceptionHandler(
-        {
-            HttpMediaTypeNotSupportedException.class
-        })
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     public Message unsupportedMediaType(HttpServletRequest req, Exception e)
     {
@@ -184,10 +168,7 @@ public class BaseExceptionAction
      * @return An error message.
      */
     @ResponseBody
-    @ExceptionHandler(
-        {
-            Exception.class
-        })
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Message internalServerError(HttpServletRequest req, Exception e)
     {

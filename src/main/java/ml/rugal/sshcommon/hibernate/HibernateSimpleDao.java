@@ -14,15 +14,12 @@ import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.internal.CriteriaImpl;
 import org.hibernate.transform.ResultTransformer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 /**
  *
- * This is abstract hibernate DAO, including basic operation such like find
- * object by its primary key;
- * search for list of matched records by properties;
+ * This is abstract hibernate DAO, including basic operation such like find object by its primary
+ * key; search for list of matched records by properties;
  *
  * @author Rugal Bernstein
  * @since 0.1
@@ -30,7 +27,7 @@ import org.springframework.util.Assert;
 public abstract class HibernateSimpleDao
 {
 
-    protected Logger log = LoggerFactory.getLogger(getClass());
+    protected SessionFactory sessionFactory;
 
     /**
      * Hibernate ordering entry.
@@ -209,8 +206,6 @@ public abstract class HibernateSimpleDao
         return ((Number) query.iterate().next()).intValue();
     }
 
-    protected SessionFactory sessionFactory;
-
     /**
      * Inject a session factory from spring application context.
      *
@@ -223,8 +218,8 @@ public abstract class HibernateSimpleDao
     }
 
     /**
-     * Use {@code getCurrentSession()} from hibernate to get current hibernate
-     * session, thus there must be some opened session in container.
+     * Use {@code getCurrentSession()} from hibernate to get current hibernate session, thus there
+     * must be some opened session in container.
      *
      * @return Get current hibernate session.
      */

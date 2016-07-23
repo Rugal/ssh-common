@@ -3,6 +3,7 @@ package ml.rugal.sshcommon.hibernate;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import ml.rugal.sshcommon.page.Pagination;
 import ml.rugal.sshcommon.util.BeanUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -17,8 +18,8 @@ import org.springframework.util.Assert;
 
 /**
  *
- * An abstract hibernate DAO class that implement the HibernateSimpleDao,
- * implemented its get and find method. <BR>
+ * An abstract hibernate DAO class that implement the HibernateSimpleDao, implemented its get and
+ * find method. <BR>
  * In addition to this, this class provide abstract update method.
  *
  * @author Rugal Bernstein
@@ -37,6 +38,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return get reflected object.
      */
+    @Transactional(readOnly = true)
     protected T get(ID id)
     {
         return get(id, false);
@@ -49,6 +51,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return get reflected object.
      */
+    @Transactional(readOnly = true)
     protected T get(ID id, boolean lock)
     {
         T entity;
@@ -65,6 +68,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return A list of record that their property match value.
      */
+    @Transactional(readOnly = true)
     protected List<T> findByProperty(String property, Object value)
     {
         Assert.hasText(property);
@@ -72,8 +76,8 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     }
 
     /**
-     * Query for list of matched object by given string data.
-     * For this is front matching method. <BR>
+     * Query for list of matched object by given string data. For this is front matching method.
+     * <BR>
      * Pattern: (value%)
      *
      * @param property name of property
@@ -81,15 +85,15 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return A list of record that their property match value.
      */
-    protected List<T> findByPropertyBefore(String property, Object value)
+    @Transactional(readOnly = true)
+    protected List<T> startsWith(String property, String value)
     {
         Assert.hasText(property);
         return createCriteria(Restrictions.like(property, value + "%")).list();
     }
 
     /**
-     * Query for list of matched object by given string data.
-     * For this is vague search.<BR>
+     * Check if given property contains given value.<BR>
      * Pattern: (%value%)
      *
      * @param property name of property
@@ -97,15 +101,16 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return A list of record that their property match value.
      */
-    protected List<T> findByPropertyVague(String property, Object value)
+    @Transactional(readOnly = true)
+    protected List<T> contains(String property, String value)
     {
         Assert.hasText(property);
         return createCriteria(Restrictions.like(property, "%" + value + "%")).list();
     }
 
     /**
-     * Query for list of matched object by given string data.
-     * For this is backend matching method.<BR>
+     * Query for list of matched object by given string data. For this is backend matching
+     * method.<BR>
      * Pattern: (%value)
      *
      * @param property name of property
@@ -113,7 +118,8 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return A list of record that their property match value.
      */
-    protected List<T> findByPropertyAfter(String property, Object value)
+    @Transactional(readOnly = true)
+    protected List<T> endsWith(String property, String value)
     {
         Assert.hasText(property);
         return createCriteria(Restrictions.like(property, "%" + value)).list();
@@ -127,6 +133,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return An record that its property match value.
      */
+    @Transactional(readOnly = true)
     protected T findUniqueByProperty(String property, Object value)
     {
         Assert.hasText(property);
@@ -142,13 +149,14 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return matched record number.
      */
+    @Transactional(readOnly = true)
     protected int countByProperty(String property, Object value)
     {
         Assert.hasText(property);
         Assert.notNull(value);
         return ((Number) (createCriteria(
-            Restrictions.eq(property, value)).setProjection(
-                Projections.rowCount()).uniqueResult())).intValue();
+                          Restrictions.eq(property, value)).setProjection(
+                          Projections.rowCount()).uniqueResult())).intValue();
     }
 
     /**
@@ -158,6 +166,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * <p>
      * @return A list of record that match the given criterion
      */
+    @Transactional(readOnly = true)
     protected List findByCriteria(Criterion... criterion)
     {
         return createCriteria(criterion).list();
@@ -221,8 +230,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * Create a criteria to filter.
      *
-     * @param criterions
-     *                   <p>
+     * @param criterions <p>
      * @return AN criteria object.
      */
     protected Criteria createCriteria(Criterion... criterions)
@@ -241,4 +249,60 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return return current entity class.
      */
     abstract protected Class<T> getEntityClass();
+
+    /**
+     * Get a page of objects.
+     *
+     * @param pageNo
+     * @param pageSize
+     *
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Pagination getPage(int pageNo, int pageSize)
+    {
+        return findByCriteria(this.createCriteria(), pageNo, pageSize);
+    }
+
+    /**
+     * Default Save behavior. <BR>
+     * The returned bean will probably has ID. <BR>
+     * The way ID generates depends on Database and Bean setting.
+     *
+     * @param bean
+     *
+     * @return Bean with ID probably filled.
+     */
+    public T save(T bean)
+    {
+        getSession().save(bean);
+        return bean;
+    }
+
+    /**
+     * Delete object by ID.
+     *
+     * @param id
+     *
+     * @return
+     */
+    public T deleteByPK(ID id)
+    {
+        T entity = this.get(id);
+        return this.delete(entity);
+    }
+
+    /**
+     * Delete object.
+     *
+     * @param bean
+     *
+     * @return
+     */
+    public T delete(T bean)
+    {
+        Assert.notNull(bean);
+        getSession().delete(bean);
+        return bean;
+    }
 }
