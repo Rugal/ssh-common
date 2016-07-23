@@ -39,7 +39,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return get reflected object.
      */
     @Transactional(readOnly = true)
-    protected T get(ID id)
+    public T get(ID id)
     {
         return get(id, false);
     }
@@ -253,10 +253,10 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * Get a page of objects.
      *
-     * @param pageNo
-     * @param pageSize
+     * @param pageNo   The page number
+     * @param pageSize Size of each page
      *
-     * @return
+     * @return A page of target objects.
      */
     @Transactional(readOnly = true)
     public Pagination getPage(int pageNo, int pageSize)
@@ -269,7 +269,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * The returned bean will probably has ID. <BR>
      * The way ID generates depends on Database and Bean setting.
      *
-     * @param bean
+     * @param bean Bean to be persisted.
      *
      * @return Bean with ID probably filled.
      */
@@ -282,9 +282,9 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * Delete object by ID.
      *
-     * @param id
+     * @param id Should be the {@code ID} annotated field.
      *
-     * @return
+     * @return The bean that is deleted.
      */
     public T deleteByPK(ID id)
     {
@@ -295,9 +295,9 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
     /**
      * Delete object.
      *
-     * @param bean
+     * @param bean The bean to be deleted.
      *
-     * @return
+     * @return The bean that is deleted.
      */
     public T delete(T bean)
     {
