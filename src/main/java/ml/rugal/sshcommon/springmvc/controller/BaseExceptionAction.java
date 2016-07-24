@@ -83,7 +83,7 @@ public class BaseExceptionAction
         })
     public void badRequest(HttpServletRequest req, Exception e)
     {
-        LOG.error(e.getMessage(), e);
+        LOG.error(BAD_REQUEST, e);
     }
 
     /**
@@ -102,7 +102,7 @@ public class BaseExceptionAction
         })
     public void notFound(HttpServletRequest req, Exception e)
     {
-        LOG.warn(e.getMessage());
+        LOG.warn(NOT_FOUND);
     }
 
     /**
@@ -118,7 +118,7 @@ public class BaseExceptionAction
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     public void methodNotAllowed(HttpServletRequest req, Exception e)
     {
-        LOG.error(e.getMessage(), e);
+        LOG.error(METHOD_NOT_ALLOWED, e);
     }
 
     /**
@@ -134,7 +134,7 @@ public class BaseExceptionAction
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public void notAcceptable(HttpServletRequest req, Exception e)
     {
-        LOG.error(e.getMessage(), e);
+        LOG.error(NOT_ACCEPTABLE, e);
     }
 
     /**
@@ -150,7 +150,7 @@ public class BaseExceptionAction
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     public void unsupportedMediaType(HttpServletRequest req, Exception e)
     {
-        LOG.error(e.getMessage(), e);
+        LOG.error(UNSUPPORTED_MEDIA_TYPE, e);
     }
 
     /**
@@ -166,6 +166,6 @@ public class BaseExceptionAction
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void internalServerError(HttpServletRequest req, Exception e)
     {
-        LOG.error(e.getMessage(), e);
+        LOG.error(INTERNAL_SERVER_ERROR, e);
     }
 }
