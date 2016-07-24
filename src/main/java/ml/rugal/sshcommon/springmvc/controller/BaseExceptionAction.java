@@ -2,7 +2,6 @@ package ml.rugal.sshcommon.springmvc.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import ml.rugal.sshcommon.springmvc.util.Message;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -59,7 +58,7 @@ public class BaseExceptionAction
     @RequestMapping("/**")
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Message PathNotFoundHandler(HttpServletRequest request) throws NoSuchRequestHandlingMethodException
+    public void PathNotFoundHandler(HttpServletRequest request) throws NoSuchRequestHandlingMethodException
     {
         LOG.warn(String.format("{%s occured, request URL: %s, request host: %s",
                                NOT_FOUND, request.getRequestURI(), request.getRemoteAddr()));
@@ -82,10 +81,9 @@ public class BaseExceptionAction
             MethodArgumentNotValidException.class, MissingServletRequestParameterException.class,
             MissingServletRequestPartException.class, TypeMismatchException.class
         })
-    public Message badRequest(HttpServletRequest req, Exception e)
+    public void badRequest(HttpServletRequest req, Exception e)
     {
         LOG.error(e.getMessage(), e);
-        return Message.failMessage(BAD_REQUEST);
     }
 
     /**
@@ -102,10 +100,9 @@ public class BaseExceptionAction
         {
             NoHandlerFoundException.class, NoSuchRequestHandlingMethodException.class
         })
-    public Message notFound(HttpServletRequest req, Exception e)
+    public void notFound(HttpServletRequest req, Exception e)
     {
         LOG.warn(e.getMessage());
-        return Message.failMessage(NOT_FOUND);
     }
 
     /**
@@ -119,10 +116,9 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public Message methodNotAllowed(HttpServletRequest req, Exception e)
+    public void methodNotAllowed(HttpServletRequest req, Exception e)
     {
         LOG.error(e.getMessage(), e);
-        return Message.failMessage(METHOD_NOT_ALLOWED);
     }
 
     /**
@@ -136,10 +132,9 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public Message notAcceptable(HttpServletRequest req, Exception e)
+    public void notAcceptable(HttpServletRequest req, Exception e)
     {
         LOG.error(e.getMessage(), e);
-        return Message.failMessage(NOT_ACCEPTABLE);
     }
 
     /**
@@ -153,10 +148,9 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-    public Message unsupportedMediaType(HttpServletRequest req, Exception e)
+    public void unsupportedMediaType(HttpServletRequest req, Exception e)
     {
         LOG.error(e.getMessage(), e);
-        return Message.failMessage(UNSUPPORTED_MEDIA_TYPE);
     }
 
     /**
@@ -170,9 +164,8 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Message internalServerError(HttpServletRequest req, Exception e)
+    public void internalServerError(HttpServletRequest req, Exception e)
     {
         LOG.error(e.getMessage(), e);
-        return Message.failMessage(INTERNAL_SERVER_ERROR);
     }
 }
