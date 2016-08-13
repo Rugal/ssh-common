@@ -1,11 +1,13 @@
 ssh-common
 ==========
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ml.rugal/ssh-common/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/ml.rugal/ssh-common)
+
 
 Maven command:  
 
     <groupId>ml.rugal</groupId>
     <artifactId>ssh-common</artifactId>
-    <version>0.4</version>
+    <version>${version}</version>
 
 
 Use `lombok`.   
