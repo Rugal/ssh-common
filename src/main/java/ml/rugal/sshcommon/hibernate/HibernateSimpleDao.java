@@ -128,7 +128,7 @@ public abstract class HibernateSimpleDao
     }
 
     /**
-     * use given criteria to query and get page.
+     * Use given criteria to query and get page.
      *
      * @param crit     the given criteria for query.
      * @param pageNo   the page number to get, start from 1.
@@ -150,12 +150,11 @@ public abstract class HibernateSimpleDao
         }
         catch (Exception e)
         {
-            throw new RuntimeException(
-                "cannot read/write 'orderEntries' from CriteriaImpl", e);
+            throw new RuntimeException("cannot read/write 'orderEntries' from CriteriaImpl", e);
         }
 
-        int totalCount = ((Number) crit.setProjection(Projections.rowCount()).uniqueResult())
-            .intValue();
+        //total count of this query, equivalent to select count(id) from table where ...
+        int totalCount = ((Number) crit.setProjection(Projections.rowCount()).uniqueResult()).intValue();
         Pagination p = new Pagination(pageNo, pageSize, totalCount);
         if (totalCount < 1)
         {
@@ -179,8 +178,7 @@ public abstract class HibernateSimpleDao
         }
         catch (Exception e)
         {
-            throw new RuntimeException(
-                "set 'orderEntries' to CriteriaImpl faild", e);
+            throw new RuntimeException("set 'orderEntries' to CriteriaImpl faild", e);
         }
         crit.setFirstResult(p.getFirstResult());
         crit.setMaxResults(p.getPageSize());

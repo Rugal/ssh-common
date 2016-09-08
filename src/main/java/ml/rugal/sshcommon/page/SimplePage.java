@@ -9,9 +9,7 @@ import com.google.gson.annotations.Expose;
 public class SimplePage implements Paginable
 {
 
-    private static final long serialVersionUID = 1L;
-
-    public static final int DEF_COUNT = 20;
+    public static final int DEFAULT_COUNT = 20;
 
     /**
      * check the page number and give it valid number.
@@ -85,11 +83,7 @@ public class SimplePage implements Paginable
     public int getTotalPage()
     {
         int totalPage = totalCount / pageSize;
-        if (totalPage == 0 || totalCount % pageSize != 0)
-        {
-            totalPage++;
-        }
-        return totalPage;
+        return (totalPage == 0 || totalCount % pageSize != 0) ? totalPage + 1 : totalPage;
     }
 
     /**
@@ -116,14 +110,7 @@ public class SimplePage implements Paginable
     @Override
     public int getNextPage()
     {
-        if (isLastPage())
-        {
-            return pageNo;
-        }
-        else
-        {
-            return pageNo + 1;
-        }
+        return isLastPage() ? pageNo : pageNo + 1;
     }
 
     /**
@@ -132,14 +119,7 @@ public class SimplePage implements Paginable
     @Override
     public int getPrePage()
     {
-        if (isFirstPage())
-        {
-            return pageNo;
-        }
-        else
-        {
-            return pageNo - 1;
-        }
+        return isFirstPage() ? pageNo : pageNo - 1;
     }
 
     @Expose
@@ -158,50 +138,27 @@ public class SimplePage implements Paginable
      */
     public void setTotalCount(int totalCount)
     {
-        if (totalCount < 0)
-        {
-            this.totalCount = 0;
-        }
-        else
-        {
-            this.totalCount = totalCount;
-        }
+        this.totalCount = totalCount < 0 ? 0 : totalCount;
     }
 
     /**
-     * set page size to query, start from 1, will use default page size of 20 if
-     * parameter less than 1..
+     * set page size to query, start from 1, will use default page size if parameter less than 1..
      *
      * @param pageSize Size of page.
      */
     public void setPageSize(int pageSize)
     {
-        if (pageSize < 1)
-        {
-            this.pageSize = DEF_COUNT;
-        }
-        else
-        {
-            this.pageSize = pageSize;
-        }
+        this.pageSize = pageSize < 1 ? DEFAULT_COUNT : pageSize;
     }
 
     /**
      *
-     * Set page number for this query, if given parameter less than 1, adjust it
-     * to 1.
+     * Set page number for this query, if given parameter less than 1, adjust it to 1.
      *
      * @param pageNo Page number
      */
     public void setPageNo(int pageNo)
     {
-        if (pageNo < 1)
-        {
-            this.pageNo = 1;
-        }
-        else
-        {
-            this.pageNo = pageNo;
-        }
+        this.pageNo = pageNo < 1 ? 1 : pageNo;
     }
 }

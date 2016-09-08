@@ -8,6 +8,11 @@ package ml.rugal.sshcommon.page;
 public interface Paginable
 {
 
+    /**
+     * The total number in all pages.
+     *
+     * @return
+     */
     public int getTotalCount();
 
     /**

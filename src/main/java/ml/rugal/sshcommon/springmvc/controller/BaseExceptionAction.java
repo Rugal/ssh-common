@@ -50,10 +50,8 @@ public class BaseExceptionAction
      *
      * @param request The request that threw exception
      *
-     * @return An error message.
-     *
-     * @throws NoSuchRequestHandlingMethodException Throw this exception so to handle exception
-     *                                              error to 404 exception handler.
+     * @throws NoSuchRequestHandlingMethodException Throw this exception so to handle exception error to 404 exception
+     *                                              handler.
      */
     @RequestMapping("/**")
     @ResponseBody
@@ -71,7 +69,6 @@ public class BaseExceptionAction
      * @param req The request that threw exception
      * @param e   Bad exception that was thrown in.
      *
-     * @return An error message.
      *
      */
     @ResponseBody
@@ -92,7 +89,6 @@ public class BaseExceptionAction
      * @param req The request that threw exception
      * @param e   Bad exception that was thrown in.
      *
-     * @return An error message.
      */
     @ResponseBody
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -111,7 +107,6 @@ public class BaseExceptionAction
      * @param req The request that threw exception
      * @param e   Bad exception that was thrown in.
      *
-     * @return An error message.
      */
     @ResponseBody
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -127,7 +122,6 @@ public class BaseExceptionAction
      * @param req The request that threw exception
      * @param e   Bad exception that was thrown in.
      *
-     * @return An error message.
      */
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
@@ -143,7 +137,6 @@ public class BaseExceptionAction
      * @param req The request that threw exception
      * @param e   Bad exception that was thrown in.
      *
-     * @return An error message.
      */
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
@@ -159,7 +152,6 @@ public class BaseExceptionAction
      * @param req The request that threw exception
      * @param e   Bad exception that was thrown in.
      *
-     * @return An error message.
      */
     @ResponseBody
     @ExceptionHandler(Exception.class)

@@ -9,9 +9,7 @@ import java.util.List;
  *
  * @author Rugal Bernstein
  */
-@SuppressWarnings("serial")
-public class Pagination extends SimplePage implements Serializable,
-                                                      Paginable
+public class Pagination extends SimplePage implements Serializable, Paginable
 {
 
     public Pagination()
@@ -29,6 +27,11 @@ public class Pagination extends SimplePage implements Serializable,
         this.list = list;
     }
 
+    /**
+     * Get the index of first record of current page.
+     *
+     * @return
+     */
     public int getFirstResult()
     {
         return (pageNo - 1) * pageSize;
