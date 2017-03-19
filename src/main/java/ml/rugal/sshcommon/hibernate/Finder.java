@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.type.Type;
@@ -15,21 +16,17 @@ import org.hibernate.type.Type;
  *
  * @author Rugal Bernstein
  */
-public class Finder
-{
+public class Finder {
 
-    protected Finder()
-    {
+    protected Finder() {
         hqlBuilder = new StringBuilder();
     }
 
-    protected Finder(String hql)
-    {
+    protected Finder(String hql) {
         hqlBuilder = new StringBuilder(hql);
     }
 
-    public static Finder create()
-    {
+    public static Finder create() {
         return new Finder();
     }
 
@@ -40,8 +37,7 @@ public class Finder
      * <p>
      * @return parameter HQL contented finder.
      */
-    public static Finder create(String hql)
-    {
+    public static Finder create(String hql) {
         return new Finder(hql);
     }
 
@@ -52,8 +48,7 @@ public class Finder
      * <p>
      * @return current finder object.
      */
-    public Finder append(String hql)
-    {
+    public Finder append(String hql) {
         hqlBuilder.append(hql);
         return this;
     }
@@ -63,8 +58,7 @@ public class Finder
      *
      * @return the original string or HQL
      */
-    public String getOrigHql()
-    {
+    public String getOrigHql() {
         return hqlBuilder.toString();
     }
 
@@ -73,8 +67,7 @@ public class Finder
      *
      * @return row number counted
      */
-    public String getRowCountHql()
-    {
+    public String getRowCountHql() {
         String hql = hqlBuilder.toString();
 
         int fromIndex = hql.toLowerCase().indexOf(FROM);
@@ -84,40 +77,33 @@ public class Finder
         String rowCountHql = hql.replace(HQL_FETCH, "");
 
         int index = rowCountHql.indexOf(ORDER_BY);
-        if (index > 0)
-        {
+        if (index > 0) {
             rowCountHql = rowCountHql.substring(0, index);
         }
         return wrapProjection(projectionHql) + rowCountHql;
     }
 
-    public int getFirstResult()
-    {
+    public int getFirstResult() {
         return firstResult;
     }
 
-    public void setFirstResult(int firstResult)
-    {
+    public void setFirstResult(int firstResult) {
         this.firstResult = firstResult;
     }
 
-    public int getMaxResults()
-    {
+    public int getMaxResults() {
         return maxResults;
     }
 
-    public void setMaxResults(int maxResults)
-    {
+    public void setMaxResults(int maxResults) {
         this.maxResults = maxResults;
     }
 
-    public boolean isCacheable()
-    {
+    public boolean isCacheable() {
         return cacheable;
     }
 
-    public void setCacheable(boolean cacheable)
-    {
+    public void setCacheable(boolean cacheable) {
         this.cacheable = cacheable;
     }
 
@@ -129,8 +115,7 @@ public class Finder
      * <p>
      * @return current finder object for concatenation
      */
-    public Finder setParam(String param, Object value)
-    {
+    public Finder setParam(String param, Object value) {
         return setParam(param, value, null);
     }
 
@@ -143,8 +128,7 @@ public class Finder
      * <p>
      * @return current finder object.
      */
-    public Finder setParam(String param, Object value, Type type)
-    {
+    public Finder setParam(String param, Object value, Type type) {
         getParams().add(param);
         getValues().add(value);
         getTypes().add(type);
@@ -157,10 +141,8 @@ public class Finder
      * <p>
      * @return current finder.
      */
-    public Finder setParams(Map<String, Object> paramMap)
-    {
-        for (Map.Entry<String, Object> entry : paramMap.entrySet())
-        {
+    public Finder setParams(Map<String, Object> paramMap) {
+        for (Map.Entry<String, Object> entry : paramMap.entrySet()) {
             setParam(entry.getKey(), entry.getValue());
         }
         return this;
@@ -174,8 +156,7 @@ public class Finder
      * <p>
      * @return Current finder.
      */
-    public Finder setParamList(String name, Collection<Object> vals, Type type)
-    {
+    public Finder setParamList(String name, Collection<Object> vals, Type type) {
         getParamsList().add(name);
         getValuesList().add(vals);
         getTypesList().add(type);
@@ -189,8 +170,7 @@ public class Finder
      * <p>
      * @return Current finder
      */
-    public Finder setParamList(String name, Collection<Object> vals)
-    {
+    public Finder setParamList(String name, Collection<Object> vals) {
         return setParamList(name, vals, null);
     }
 
@@ -202,8 +182,7 @@ public class Finder
      * <p>
      * @return Current finder
      */
-    public Finder setParamList(String name, Object[] vals, Type type)
-    {
+    public Finder setParamList(String name, Object[] vals, Type type) {
         getParamsArray().add(name);
         getValuesArray().add(vals);
         getTypesArray().add(type);
@@ -217,8 +196,7 @@ public class Finder
      * <p>
      * @return Current finder
      */
-    public Finder setParamList(String name, Object[] vals)
-    {
+    public Finder setParamList(String name, Object[] vals) {
         return setParamList(name, vals, null);
     }
 
@@ -228,47 +206,31 @@ public class Finder
      * <p>
      * @return Current query
      */
-    public Query setParamsToQuery(Query query)
-    {
-        if (params != null)
-        {
-            for (int i = 0; i < params.size(); i++)
-            {
-                if (types.get(i) == null)
-                {
+    public Query setParamsToQuery(Query query) {
+        if (params != null) {
+            for (int i = 0; i < params.size(); i++) {
+                if (types.get(i) == null) {
                     query.setParameter(params.get(i), values.get(i));
-                }
-                else
-                {
+                } else {
                     query.setParameter(params.get(i), values.get(i), types.get(i));
                 }
             }
         }
-        if (paramsList != null)
-        {
-            for (int i = 0; i < paramsList.size(); i++)
-            {
-                if (typesList.get(i) == null)
-                {
+        if (paramsList != null) {
+            for (int i = 0; i < paramsList.size(); i++) {
+                if (typesList.get(i) == null) {
                     query.setParameterList(paramsList.get(i), valuesList.get(i));
-                }
-                else
-                {
+                } else {
                     query.setParameterList(paramsList.get(i),
                                            valuesList.get(i), typesList.get(i));
                 }
             }
         }
-        if (paramsArray != null)
-        {
-            for (int i = 0; i < paramsArray.size(); i++)
-            {
-                if (typesArray.get(i) == null)
-                {
+        if (paramsArray != null) {
+            for (int i = 0; i < paramsArray.size(); i++) {
+                if (typesArray.get(i) == null) {
                     query.setParameterList(paramsArray.get(i), valuesArray.get(i));
-                }
-                else
-                {
+                } else {
                     query
                         .setParameterList(paramsArray.get(i), valuesArray.get(i), typesArray.get(i));
                 }
@@ -277,112 +239,86 @@ public class Finder
         return query;
     }
 
-    public Query createQuery(Session s)
-    {
+    public Query createQuery(Session s) {
         Query query = setParamsToQuery(s.createQuery(getOrigHql()));
-        if (getFirstResult() > 0)
-        {
+        if (getFirstResult() > 0) {
             query.setFirstResult(getFirstResult());
         }
-        if (getMaxResults() > 0)
-        {
+        if (getMaxResults() > 0) {
             query.setMaxResults(getMaxResults());
         }
-        if (isCacheable())
-        {
+        if (isCacheable()) {
             query.setCacheable(true);
         }
         return query;
     }
 
-    private String wrapProjection(String projection)
-    {
-        if (!projection.contains("select"))
-        {
+    private String wrapProjection(String projection) {
+        if (!projection.contains("select")) {
             return ROW_COUNT;
-        }
-        else
-        {
+        } else {
             return projection.replace("select", "select count(") + ") ";
         }
     }
 
-    private List<String> getParams()
-    {
-        if (params == null)
-        {
+    private List<String> getParams() {
+        if (params == null) {
             params = new ArrayList<>();
         }
         return params;
     }
 
-    private List<Object> getValues()
-    {
-        if (values == null)
-        {
+    private List<Object> getValues() {
+        if (values == null) {
             values = new ArrayList<>();
         }
         return values;
     }
 
-    private List<Type> getTypes()
-    {
-        if (types == null)
-        {
+    private List<Type> getTypes() {
+        if (types == null) {
             types = new ArrayList<>();
         }
         return types;
     }
 
-    private List<String> getParamsList()
-    {
-        if (paramsList == null)
-        {
+    private List<String> getParamsList() {
+        if (paramsList == null) {
             paramsList = new ArrayList<>();
         }
         return paramsList;
     }
 
-    private List<Collection<Object>> getValuesList()
-    {
-        if (valuesList == null)
-        {
+    private List<Collection<Object>> getValuesList() {
+        if (valuesList == null) {
             valuesList = new ArrayList<>();
         }
         return valuesList;
     }
 
-    private List<Type> getTypesList()
-    {
-        if (typesList == null)
-        {
+    private List<Type> getTypesList() {
+        if (typesList == null) {
             typesList = new ArrayList<>();
         }
         return typesList;
     }
 
-    private List<String> getParamsArray()
-    {
-        if (paramsArray == null)
-        {
+    private List<String> getParamsArray() {
+        if (paramsArray == null) {
             paramsArray = new ArrayList<>();
         }
         return paramsArray;
     }
 
-    private List<Object[]> getValuesArray()
-    {
-        if (valuesArray == null)
-        {
+    private List<Object[]> getValuesArray() {
+        if (valuesArray == null) {
             valuesArray = new ArrayList<>();
         }
         return valuesArray;
     }
 
-    private List<Type> getTypesArray()
-    {
-        if (typesArray == null)
-        {
+    private List<Type> getTypesArray() {
+        if (typesArray == null) {
             typesArray = new ArrayList<>();
         }
         return typesArray;

@@ -12,84 +12,68 @@ import java.util.Set;
  * @param <K> key type
  * @param <V> value type
  */
-public class MapWapper<K, V>
-{
+public class MapWapper<K, V> {
 
     private Map<K, V> innerMap = new HashMap<>();
 
-    public void setInnerMap(Map<K, V> innerMap)
-    {
+    public void setInnerMap(Map<K, V> innerMap) {
         this.innerMap = innerMap;
     }
 
-    public Map<K, V> getInnerMap()
-    {
+    public Map<K, V> getInnerMap() {
         return innerMap;
     }
 
-    public void clear()
-    {
+    public void clear() {
         innerMap.clear();
     }
 
-    public boolean containsKey(Object key)
-    {
+    public boolean containsKey(Object key) {
         return innerMap.containsKey(key);
     }
 
-    public boolean containsValue(Object value)
-    {
+    public boolean containsValue(Object value) {
         return innerMap.containsValue(value);
     }
 
-    public Set<java.util.Map.Entry<K, V>> entrySet()
-    {
+    public Set<java.util.Map.Entry<K, V>> entrySet() {
         return innerMap.entrySet();
     }
 
-    public V get(Object key)
-    {
+    public V get(Object key) {
         return innerMap.get(key);
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return innerMap.isEmpty();
     }
 
-    public Set<K> keySet()
-    {
+    public Set<K> keySet() {
         return innerMap.keySet();
     }
 
-    public V put(K key, V value)
-    {
+    public V put(K key, V value) {
         return innerMap.put(key, value);
     }
 
-    public void putAll(Map<? extends K, ? extends V> m)
-    {
+    public void putAll(Map<? extends K, ? extends V> m) {
         innerMap.putAll(m);
     }
 
-    public V remove(Object key)
-    {
+    public V remove(Object key) {
         return innerMap.remove(key);
     }
 
-    public int size()
-    {
+    public int size() {
         return innerMap.size();
     }
 
-    public Collection<V> values()
-    {
+    public Collection<V> values() {
         return innerMap.values();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return innerMap.toString();
     }
 

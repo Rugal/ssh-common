@@ -1,28 +1,25 @@
 package ml.rugal.sshcommon.page;
 
-import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
 
 /**
  * Concrete page for pagination.
  *
  * @author Rugal Bernstein
  */
-public class Pagination extends SimplePage implements Serializable, Paginable
-{
+public class Pagination extends SimplePage implements Serializable, Paginable {
 
-    public Pagination()
-    {
+    public Pagination() {
     }
 
-    public Pagination(int pageNo, int pageSize, int totalCount)
-    {
+    public Pagination(int pageNo, int pageSize, int totalCount) {
         super(pageNo, pageSize, totalCount);
     }
 
-    public Pagination(int pageNo, int pageSize, int totalCount, List<?> list)
-    {
+    public Pagination(int pageNo, int pageSize, int totalCount, List<?> list) {
         super(pageNo, pageSize, totalCount);
         this.list = list;
     }
@@ -32,21 +29,18 @@ public class Pagination extends SimplePage implements Serializable, Paginable
      *
      * @return
      */
-    public int getFirstResult()
-    {
+    public int getFirstResult() {
         return (pageNo - 1) * pageSize;
     }
 
     @Expose
     private List<?> list;
 
-    public List<?> getList()
-    {
+    public List<?> getList() {
         return list;
     }
 
-    public void setList(List list)
-    {
+    public void setList(List list) {
         this.list = list;
     }
 }

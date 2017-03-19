@@ -6,8 +6,7 @@ import com.google.gson.annotations.Expose;
  *
  * @author Rugal Bernstein
  */
-public class SimplePage implements Paginable
-{
+public class SimplePage implements Paginable {
 
     public static final int DEFAULT_COUNT = 20;
 
@@ -16,16 +15,13 @@ public class SimplePage implements Paginable
      *
      * @param pageNo page number to be specified, start from
      * <p>
-     * @return return 1 if page number is null or less than 1; Or just return
-     *         the page number.
+     * @return return 1 if page number is null or less than 1; Or just return the page number.
      */
-    public static int cpn(Integer pageNo)
-    {
+    public static int cpn(Integer pageNo) {
         return (pageNo == null || pageNo < 1) ? 1 : pageNo;
     }
 
-    public SimplePage()
-    {
+    public SimplePage() {
     }
 
     /**
@@ -34,8 +30,7 @@ public class SimplePage implements Paginable
      * @param pageSize   Size per page
      * @param totalCount number of total records.
      */
-    public SimplePage(int pageNo, int pageSize, int totalCount)
-    {
+    public SimplePage(int pageNo, int pageSize, int totalCount) {
         setTotalCount(totalCount);
         setPageSize(pageSize);
         setPageNo(pageNo);
@@ -45,34 +40,28 @@ public class SimplePage implements Paginable
     /**
      * Adjust page number if it is not accurate.
      */
-    public void adjustPageNo()
-    {
-        if (pageNo == 1)
-        {
+    public void adjustPageNo() {
+        if (pageNo == 1) {
             return;
         }
         int tp = getTotalPage();
-        if (pageNo > tp)
-        {
+        if (pageNo > tp) {
             pageNo = tp;
         }
     }
 
     @Override
-    public int getPageNo()
-    {
+    public int getPageNo() {
         return pageNo;
     }
 
     @Override
-    public int getPageSize()
-    {
+    public int getPageSize() {
         return pageSize;
     }
 
     @Override
-    public int getTotalCount()
-    {
+    public int getTotalCount() {
         return totalCount;
     }
 
@@ -80,8 +69,7 @@ public class SimplePage implements Paginable
      * {@inheritDoc }
      */
     @Override
-    public int getTotalPage()
-    {
+    public int getTotalPage() {
         int totalPage = totalCount / pageSize;
         return (totalPage == 0 || totalCount % pageSize != 0) ? totalPage + 1 : totalPage;
     }
@@ -90,8 +78,7 @@ public class SimplePage implements Paginable
      * {@inheritDoc }
      */
     @Override
-    public boolean isFirstPage()
-    {
+    public boolean isFirstPage() {
         return pageNo <= 1;
     }
 
@@ -99,8 +86,7 @@ public class SimplePage implements Paginable
      * {@inheritDoc }
      */
     @Override
-    public boolean isLastPage()
-    {
+    public boolean isLastPage() {
         return pageNo >= getTotalPage();
     }
 
@@ -108,8 +94,7 @@ public class SimplePage implements Paginable
      * {@inheritDoc }
      */
     @Override
-    public int getNextPage()
-    {
+    public int getNextPage() {
         return isLastPage() ? pageNo : pageNo + 1;
     }
 
@@ -117,8 +102,7 @@ public class SimplePage implements Paginable
      * {@inheritDoc }
      */
     @Override
-    public int getPrePage()
-    {
+    public int getPrePage() {
         return isFirstPage() ? pageNo : pageNo - 1;
     }
 
@@ -136,8 +120,7 @@ public class SimplePage implements Paginable
      *
      * @param totalCount Number of total records
      */
-    public void setTotalCount(int totalCount)
-    {
+    public void setTotalCount(int totalCount) {
         this.totalCount = totalCount < 0 ? 0 : totalCount;
     }
 
@@ -146,8 +129,7 @@ public class SimplePage implements Paginable
      *
      * @param pageSize Size of page.
      */
-    public void setPageSize(int pageSize)
-    {
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize < 1 ? DEFAULT_COUNT : pageSize;
     }
 
@@ -157,8 +139,7 @@ public class SimplePage implements Paginable
      *
      * @param pageNo Page number
      */
-    public void setPageNo(int pageNo)
-    {
+    public void setPageNo(int pageNo) {
         this.pageNo = pageNo < 1 ? 1 : pageNo;
     }
 }

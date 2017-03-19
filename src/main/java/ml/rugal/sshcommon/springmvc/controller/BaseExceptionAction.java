@@ -1,6 +1,7 @@
 package ml.rugal.sshcommon.springmvc.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,7 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 @Slf4j
 @ControllerAdvice
 @Controller
-public class BaseExceptionAction
-{
+public class BaseExceptionAction {
 
     private static final String BAD_REQUEST = "400 (Bad Request)";
 
@@ -56,8 +56,7 @@ public class BaseExceptionAction
     @RequestMapping("/**")
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void PathNotFoundHandler(HttpServletRequest request) throws NoSuchRequestHandlingMethodException
-    {
+    public void PathNotFoundHandler(HttpServletRequest request) throws NoSuchRequestHandlingMethodException {
         LOG.warn(String.format("{%s occured, request URL: %s, request host: %s",
                                NOT_FOUND, request.getRequestURI(), request.getRemoteAddr()));
         throw new NoSuchRequestHandlingMethodException(request);
@@ -72,14 +71,14 @@ public class BaseExceptionAction
      *
      */
     @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(
         {
             BindException.class, HttpMessageNotReadableException.class,
             MethodArgumentNotValidException.class, MissingServletRequestParameterException.class,
             MissingServletRequestPartException.class, TypeMismatchException.class
         })
-    public void badRequest(HttpServletRequest req, Exception e)
-    {
+    public void badRequest(HttpServletRequest req, Exception e) {
         LOG.error(BAD_REQUEST, e);
     }
 
@@ -92,12 +91,8 @@ public class BaseExceptionAction
      */
     @ResponseBody
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(
-        {
-            NoHandlerFoundException.class, NoSuchRequestHandlingMethodException.class
-        })
-    public void notFound(HttpServletRequest req, Exception e)
-    {
+    @ExceptionHandler({NoHandlerFoundException.class, NoSuchRequestHandlingMethodException.class})
+    public void notFound(HttpServletRequest req, Exception e) {
         LOG.warn(NOT_FOUND);
     }
 
@@ -111,8 +106,7 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public void methodNotAllowed(HttpServletRequest req, Exception e)
-    {
+    public void methodNotAllowed(HttpServletRequest req, Exception e) {
         LOG.error(METHOD_NOT_ALLOWED, e);
     }
 
@@ -126,8 +120,7 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public void notAcceptable(HttpServletRequest req, Exception e)
-    {
+    public void notAcceptable(HttpServletRequest req, Exception e) {
         LOG.error(NOT_ACCEPTABLE, e);
     }
 
@@ -141,8 +134,7 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-    public void unsupportedMediaType(HttpServletRequest req, Exception e)
-    {
+    public void unsupportedMediaType(HttpServletRequest req, Exception e) {
         LOG.error(UNSUPPORTED_MEDIA_TYPE, e);
     }
 
@@ -156,8 +148,7 @@ public class BaseExceptionAction
     @ResponseBody
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public void internalServerError(HttpServletRequest req, Exception e)
-    {
+    public void internalServerError(HttpServletRequest req, Exception e) {
         LOG.error(INTERNAL_SERVER_ERROR, e);
     }
 }

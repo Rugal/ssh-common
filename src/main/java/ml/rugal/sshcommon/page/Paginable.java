@@ -5,8 +5,7 @@ package ml.rugal.sshcommon.page;
  *
  * @author Rugal Bernstein
  */
-public interface Paginable
-{
+public interface Paginable {
 
     /**
      * The total number in all pages.

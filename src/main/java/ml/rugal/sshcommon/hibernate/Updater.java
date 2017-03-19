@@ -2,6 +2,7 @@ package ml.rugal.sshcommon.hibernate;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,16 +12,14 @@ import org.slf4j.LoggerFactory;
  * @author Rugal Bernstein
  * @param <T> target entity class.
  */
-public class Updater<T>
-{
+public class Updater<T> {
 
     /**
      * Constructor of a updater, with default update mode.
      *
      * @param bean The bean to be updated on.
      */
-    public Updater(T bean)
-    {
+    public Updater(T bean) {
         this.bean = bean;
     }
 
@@ -30,14 +29,12 @@ public class Updater<T>
      * @param bean entity bean to be updated.
      * @param mode update mode in later operation.
      */
-    public Updater(T bean, UpdateMode mode)
-    {
+    public Updater(T bean, UpdateMode mode) {
         this.bean = bean;
         this.mode = mode;
     }
 
-    public Updater<T> setUpdateMode(UpdateMode mode)
-    {
+    public Updater<T> setUpdateMode(UpdateMode mode) {
         this.mode = mode;
         return this;
     }
@@ -49,8 +46,7 @@ public class Updater<T>
      * <p>
      * @return current updater
      */
-    public Updater<T> include(String property)
-    {
+    public Updater<T> include(String property) {
         includeProperties.add(property);
         return this;
     }
@@ -62,8 +58,7 @@ public class Updater<T>
      * <p>
      * @return current updater
      */
-    public Updater<T> exclude(String property)
-    {
+    public Updater<T> exclude(String property) {
         excludeProperties.add(property);
         return this;
     }
@@ -72,33 +67,23 @@ public class Updater<T>
      * Check a property or a field needs update.<BR>
      * 1. In MAX mode will update properties that is not excluded<BR>
      * 2. In MIN mode will update properties that is included<BR>
-     * 3. In MIDDLE mode will update properties that is value either null but
-     * included, or not null but not excluded.
+     * 3. In MIDDLE mode will update properties that is value either null but included, or not null but not excluded.
      *
      * @param name  The property to be checked.
      * @param value null value will be evaluated.
      * <p>
      * @return Judge whether a property needs to update.
      */
-    public boolean isUpdate(String name, Object value)
-    {
+    public boolean isUpdate(String name, Object value) {
         boolean needUpdate = false;
-        if (this.mode == UpdateMode.MAX)
-        {
+        if (this.mode == UpdateMode.MAX) {
             needUpdate = !excludeProperties.contains(name);
-        }
-        else if (this.mode == UpdateMode.MIN)
-        {
+        } else if (this.mode == UpdateMode.MIN) {
             needUpdate = includeProperties.contains(name);
-        }
-        else if (this.mode == UpdateMode.MIDDLE)
-        {
-            if (value != null)
-            {
+        } else if (this.mode == UpdateMode.MIDDLE) {
+            if (value != null) {
                 needUpdate = !excludeProperties.contains(name);
-            }
-            else
-            {
+            } else {
                 needUpdate = includeProperties.contains(name);
             }
         }
@@ -115,24 +100,20 @@ public class Updater<T>
 
     private static final Logger log = LoggerFactory.getLogger(Updater.class);
 
-    public static enum UpdateMode
-    {
+    public static enum UpdateMode {
 
         MAX, MIN, MIDDLE
     }
 
-    public T getBean()
-    {
+    public T getBean() {
         return bean;
     }
 
-    public Set<String> getExcludeProperties()
-    {
+    public Set<String> getExcludeProperties() {
         return excludeProperties;
     }
 
-    public Set<String> getIncludeProperties()
-    {
+    public Set<String> getIncludeProperties() {
         return includeProperties;
     }
 }

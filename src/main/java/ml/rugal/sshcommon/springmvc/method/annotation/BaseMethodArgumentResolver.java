@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -14,8 +15,7 @@ import org.springframework.web.servlet.HandlerMapping;
  * @author Rugal Bernstein
  * @since 0.1
  */
-public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumentResolver
-{
+public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     /**
      * Get parameter with specific prefix, including variable/uri/parameter
@@ -28,59 +28,44 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
      *
      */
     protected Map<String, String[]> getPrefixParameterMap(String namePrefix,
-                                                          NativeWebRequest request, boolean subPrefix)
-    {
+                                                          NativeWebRequest request, boolean subPrefix) {
         Map<String, String[]> result = new HashMap<String, String[]>();
 
         Map<String, String> variables = getUriTemplateVariables(request);
 
         int namePrefixLength = namePrefix.length();
-        for (String name : variables.keySet())
-        {
-            if (name.startsWith(namePrefix))
-            {
-                if (subPrefix)
-                {
+        for (String name : variables.keySet()) {
+            if (name.startsWith(namePrefix)) {
+                if (subPrefix) {
                     char ch = name.charAt(namePrefix.length());
                     //If next character is not digit, then is not query.
-                    if (illegalChar(ch))
-                    {
+                    if (illegalChar(ch)) {
                         continue;
                     }
-                    result.put(name.substring(namePrefixLength + 1), new String[]
-                           {
-                               variables.get(name)
+                    result.put(name.substring(namePrefixLength + 1), new String[]{
+                        variables.get(name)
                     });
-                }
-                else
-                {
-                    result.put(name, new String[]
-                           {
-                               variables.get(name)
+                } else {
+                    result.put(name, new String[]{
+                        variables.get(name)
                     });
                 }
             }
         }
 
         Iterator<String> parameterNames = request.getParameterNames();
-        while (parameterNames.hasNext())
-        {
+        while (parameterNames.hasNext()) {
             String name = parameterNames.next();
-            if (name.startsWith(namePrefix))
-            {
+            if (name.startsWith(namePrefix)) {
                 //page.pn  则截取 pn
-                if (subPrefix)
-                {
+                if (subPrefix) {
                     char ch = name.charAt(namePrefix.length());
-                    if (illegalChar(ch))
-                    {
+                    if (illegalChar(ch)) {
                         continue;
                     }
                     result.put(name.substring(namePrefixLength + 1), request
                                .getParameterValues(name));
-                }
-                else
-                {
+                } else {
                     result.put(name, request.getParameterValues(name));
                 }
             }
@@ -89,16 +74,14 @@ public abstract class BaseMethodArgumentResolver implements HandlerMethodArgumen
         return result;
     }
 
-    private boolean illegalChar(char ch)
-    {
+    private boolean illegalChar(char ch) {
         return ch != '.' && ch != '_' && !(ch >= '0' && ch <= '9');
     }
 
     @SuppressWarnings("unchecked")
-    protected final Map<String, String> getUriTemplateVariables(NativeWebRequest request)
-    {
+    protected final Map<String, String> getUriTemplateVariables(NativeWebRequest request) {
         Map<String, String> variables
-            = (Map<String, String>) request.getAttribute(
+                            = (Map<String, String>) request.getAttribute(
                 HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE, RequestAttributes.SCOPE_REQUEST);
         return (variables != null) ? variables : Collections.<String, String>emptyMap();
     }

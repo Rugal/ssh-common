@@ -12,23 +12,17 @@ import java.lang.annotation.Target;
  *
  * @author Rugal Bernstein
  */
-@Target(
-    {
-        ElementType.PARAMETER
-    })
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FormModel
-{
+public @interface FormModel {
 
     /**
-     * specify the prefix name of request parameter and the model for exposing
-     * into view.
+     * specify the prefix name of request parameter and the model for exposing into view.
      *
      * <h2>Binding rule</h2>
      * <h3>1. Prefixed with object name</h3>
-     * if form is：<br><br>
-     * {@code <input type="text" name="student.name" value="Kate" />}<br>
+     * if form is：<br><br> {@code <input type="text" name="student.name" value="Kate" />}<br>
      * {@code <input type="text" name="student.type" value="bachelor"/>}<br><br>
      * then process like：<br><br>
      *
@@ -37,11 +31,9 @@ public @interface FormModel
      * this will bind into student.name and student.type<br><br>
      *
      * <h3>2. Just name but will be in object field</h3>
-     * if form is：<br><br>
-     * {@code <input type="text" name="name" value="Kate" />}<br>
+     * if form is：<br><br> {@code <input type="text" name="name" value="Kate" />}<br>
      * {@code <input type="text" name="type" value="bachelor"/>}<br><br>
-     * If Student class contains fields "name" and "type", then it will process
-     * like：<br><br>
+     * If Student class contains fields "name" and "type", then it will process like：<br><br>
      *
      * {@code @RequestMapping(value = "/test")}<br>
      * {@code public String test(@FormModel("student") Student student)}<br><br>

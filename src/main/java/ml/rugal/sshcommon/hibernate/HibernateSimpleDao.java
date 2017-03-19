@@ -2,7 +2,9 @@ package ml.rugal.sshcommon.hibernate;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import ml.rugal.sshcommon.page.Pagination;
 import ml.rugal.sshcommon.util.BeanUtils;
 import org.hibernate.Criteria;
@@ -18,14 +20,13 @@ import org.springframework.util.Assert;
 
 /**
  *
- * This is abstract hibernate DAO, including basic operation such like find object by its primary
- * key; search for list of matched records by properties;
+ * This is abstract hibernate DAO, including basic operation such like find object by its primary key; search for list
+ * of matched records by properties;
  *
  * @author Rugal Bernstein
  * @since 0.1
  */
-public abstract class HibernateSimpleDao
-{
+public abstract class HibernateSimpleDao {
 
     protected SessionFactory sessionFactory;
 
@@ -42,8 +43,7 @@ public abstract class HibernateSimpleDao
      * <p>
      * @return a list of matched record with original object type.
      */
-    protected List find(String hql, Object... values)
-    {
+    protected List find(String hql, Object... values) {
         return createQuery(hql, values).list();
     }
 
@@ -55,8 +55,7 @@ public abstract class HibernateSimpleDao
      * <p>
      * @return Object matched record with original type.
      */
-    protected Object findUnique(String hql, Object... values)
-    {
+    protected Object findUnique(String hql, Object... values) {
         return createQuery(hql, values).setMaxResults(1).uniqueResult();
     }
 
@@ -69,12 +68,10 @@ public abstract class HibernateSimpleDao
      * <p>
      * @return A page which contain criteria matched object.
      */
-    protected Pagination find(Finder finder, int pageNo, int pageSize)
-    {
+    protected Pagination find(Finder finder, int pageNo, int pageSize) {
         int totalCount = countQueryResult(finder);
         Pagination p = new Pagination(pageNo, pageSize, totalCount);
-        if (totalCount < 1)
-        {
+        if (totalCount < 1) {
             p.setList(new ArrayList());
             return p;
         }
@@ -82,8 +79,7 @@ public abstract class HibernateSimpleDao
         finder.setParamsToQuery(query);
         query.setFirstResult(p.getFirstResult());
         query.setMaxResults(p.getPageSize());
-        if (finder.isCacheable())
-        {
+        if (finder.isCacheable()) {
             query.setCacheable(true);
         }
         List list = query.list();
@@ -98,8 +94,7 @@ public abstract class HibernateSimpleDao
      * <p>
      * @return A page which contain criteria matched object.
      */
-    protected List find(Finder finder)
-    {
+    protected List find(Finder finder) {
         Query query = finder.createQuery(getSession());
         List list = query.list();
         return list;
@@ -113,14 +108,11 @@ public abstract class HibernateSimpleDao
      * <p>
      * @return A query object.
      */
-    protected Query createQuery(String queryString, Object... values)
-    {
+    protected Query createQuery(String queryString, Object... values) {
         Assert.hasText(queryString);
         Query queryObject = getSession().createQuery(queryString);
-        if (values != null)
-        {
-            for (int i = 0; i < values.length; i++)
-            {
+        if (values != null) {
+            for (int i = 0; i < values.length; i++) {
                 queryObject.setParameter(i, values[i]);
             }
         }
@@ -136,48 +128,38 @@ public abstract class HibernateSimpleDao
      * <p>
      * @return A page which contain criteria matched object.
      */
-    protected Pagination findByCriteria(Criteria crit, int pageNo, int pageSize)
-    {
+    protected Pagination findByCriteria(Criteria crit, int pageNo, int pageSize) {
         CriteriaImpl impl = (CriteriaImpl) crit;
         // 先把Projection、ResultTransformer、OrderBy取出来,清空三者后再执行Count操作
         Projection projection = impl.getProjection();
         ResultTransformer transformer = impl.getResultTransformer();
         List<CriteriaImpl.OrderEntry> orderEntries;
-        try
-        {
+        try {
             orderEntries = (List) BeanUtils.getFieldValue(impl, ORDER_ENTRIES);
             BeanUtils.setFieldValue(impl, ORDER_ENTRIES, new ArrayList());
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException("cannot read/write 'orderEntries' from CriteriaImpl", e);
         }
 
         //total count of this query, equivalent to select count(id) from table where ...
         int totalCount = ((Number) crit.setProjection(Projections.rowCount()).uniqueResult()).intValue();
         Pagination p = new Pagination(pageNo, pageSize, totalCount);
-        if (totalCount < 1)
-        {
+        if (totalCount < 1) {
             p.setList(new ArrayList());
             return p;
         }
 
         // set projection for column.
         crit.setProjection(projection);
-        if (projection == null)
-        {
+        if (projection == null) {
             crit.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
         }
-        if (transformer != null)
-        {
+        if (transformer != null) {
             crit.setResultTransformer(transformer);
         }
-        try
-        {
+        try {
             BeanUtils.setFieldValue(impl, ORDER_ENTRIES, orderEntries);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException("set 'orderEntries' to CriteriaImpl faild", e);
         }
         crit.setFirstResult(p.getFirstResult());
@@ -193,12 +175,10 @@ public abstract class HibernateSimpleDao
      * <p>
      * @return row number in a result set.
      */
-    protected int countQueryResult(Finder finder)
-    {
+    protected int countQueryResult(Finder finder) {
         Query query = getSession().createQuery(finder.getRowCountHql());
         finder.setParamsToQuery(query);
-        if (finder.isCacheable())
-        {
+        if (finder.isCacheable()) {
             query.setCacheable(true);
         }
         return ((Number) query.iterate().next()).intValue();
@@ -210,19 +190,17 @@ public abstract class HibernateSimpleDao
      * @param sessionFactory The bean to be set.
      */
     @Resource
-    public void setSessionFactory(SessionFactory sessionFactory)
-    {
+    public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     /**
-     * Use {@code getCurrentSession()} from hibernate to get current hibernate session, thus there
-     * must be some opened session in container.
+     * Use {@code getCurrentSession()} from hibernate to get current hibernate session, thus there must be some opened
+     * session in container.
      *
      * @return Get current hibernate session.
      */
-    protected Session getSession()
-    {
+    protected Session getSession() {
         Session session = sessionFactory.getCurrentSession();
         return session;
     }

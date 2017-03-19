@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Locale;
+
 import org.springframework.util.Assert;
 
 /**
@@ -12,8 +13,7 @@ import org.springframework.util.Assert;
  * @author Rugal Bernstein
  * @since 0.1
  */
-public class BeanUtils
-{
+public class BeanUtils {
 
     /**
      * Get field value from bean without hinder of access.
@@ -23,12 +23,10 @@ public class BeanUtils
      *
      * @return Value of target field.
      */
-    public static Object getFieldValue(final Object object, final String fieldName)
-    {
+    public static Object getFieldValue(final Object object, final String fieldName) {
         Field field = getDeclaredField(object, fieldName);
 
-        if (field == null)
-        {
+        if (field == null) {
             throw new IllegalArgumentException("Could not find field [" + fieldName + "] on target [" + object + "]");
         }
 
@@ -36,12 +34,9 @@ public class BeanUtils
 
         Object result = null;
 
-        try
-        {
+        try {
             result = field.get(object);
-        }
-        catch (IllegalAccessException e)
-        {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException("never happend exception!", e);
         }
 
@@ -55,23 +50,18 @@ public class BeanUtils
      * @param fieldName field name to be updated.
      * @param value     value to set
      */
-    public static void setFieldValue(final Object object, final String fieldName, final Object value)
-    {
+    public static void setFieldValue(final Object object, final String fieldName, final Object value) {
         Field field = getDeclaredField(object, fieldName);
 
-        if (field == null)
-        {
+        if (field == null) {
             throw new IllegalArgumentException("Could not find field [" + fieldName + "] on target [" + object + "]");
         }
 
         makeAccessible(field);
 
-        try
-        {
+        try {
             field.set(object, value);
-        }
-        catch (IllegalAccessException e)
-        {
+        } catch (IllegalAccessException e) {
             throw new RuntimeException("never happend exception!", e);
         }
     }
@@ -84,8 +74,7 @@ public class BeanUtils
      *
      * @return Field object
      */
-    protected static Field getDeclaredField(final Object object, final String fieldName)
-    {
+    protected static Field getDeclaredField(final Object object, final String fieldName) {
         Assert.notNull(object);
 
         return getDeclaredField(object.getClass(), fieldName);
@@ -99,21 +88,16 @@ public class BeanUtils
      *
      * @return Field object
      */
-    protected static Field getDeclaredField(final Class clazz, final String fieldName)
-    {
+    protected static Field getDeclaredField(final Class clazz, final String fieldName) {
         Assert.notNull(clazz);
         Assert.hasText(fieldName);
 
         //traverse all declared field from inheritence
         for (Class superClass = clazz; superClass != Object.class; superClass = superClass
-            .getSuperclass())
-        {
-            try
-            {
+             .getSuperclass()) {
+            try {
                 return superClass.getDeclaredField(fieldName);
-            }
-            catch (NoSuchFieldException exception)
-            {
+            } catch (NoSuchFieldException exception) {
                 //But it is fair well to have this exception.
             }
         }
@@ -125,11 +109,9 @@ public class BeanUtils
      *
      * @param field This is target field accessible
      */
-    protected static void makeAccessible(final Field field)
-    {
+    protected static void makeAccessible(final Field field) {
         if (!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass()
-            .getModifiers()))
-        {
+            .getModifiers())) {
             field.setAccessible(true);
         }
     }
@@ -150,8 +132,7 @@ public class BeanUtils
      */
     public static Object getSimpleProperty(Object bean, String propName)
         throws IllegalArgumentException, SecurityException, IllegalAccessException, InvocationTargetException,
-               NoSuchMethodException
-    {
+               NoSuchMethodException {
         return bean.getClass().getMethod(getReadMethod(propName)).invoke(bean);
     }
 
@@ -162,8 +143,7 @@ public class BeanUtils
      *
      * @return this is name of getter method
      */
-    private static String getReadMethod(String name)
-    {
+    private static String getReadMethod(String name) {
         return "get" + name.substring(0, 1).toUpperCase(Locale.ENGLISH) + name.substring(1);
     }
 }

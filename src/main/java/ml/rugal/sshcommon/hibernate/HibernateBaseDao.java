@@ -3,6 +3,7 @@ package ml.rugal.sshcommon.hibernate;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
 import ml.rugal.sshcommon.page.Pagination;
 import ml.rugal.sshcommon.util.BeanUtils;
 import org.hibernate.Criteria;
@@ -18,8 +19,7 @@ import org.springframework.util.Assert;
 
 /**
  *
- * An abstract hibernate DAO class that implement the HibernateSimpleDao, implemented its get and
- * find method. <BR>
+ * An abstract hibernate DAO class that implement the HibernateSimpleDao, implemented its get and find method. <BR>
  * In addition to this, this class provide abstract update method.
  *
  * @author Rugal Bernstein
@@ -29,8 +29,7 @@ import org.springframework.util.Assert;
  * @since 0.1
  */
 @Transactional
-public abstract class HibernateBaseDao<T, ID extends Serializable> extends HibernateSimpleDao
-{
+public abstract class HibernateBaseDao<T, ID extends Serializable> extends HibernateSimpleDao {
 
     /**
      * @see org.hibernate.Session#get(Class,Serializable)
@@ -39,8 +38,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return get reflected object.
      */
     @Transactional(readOnly = true)
-    public T get(ID id)
-    {
+    public T get(ID id) {
         return get(id, false);
     }
 
@@ -52,8 +50,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return get reflected object.
      */
     @Transactional(readOnly = true)
-    protected T get(ID id, boolean lock)
-    {
+    protected T get(ID id, boolean lock) {
         T entity;
         entity = (lock) ? (T) getSession().get(getEntityClass(), id, LockMode.UPGRADE) : (T) getSession()
             .get(getEntityClass(), id);
@@ -69,8 +66,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return A list of record that their property match value.
      */
     @Transactional(readOnly = true)
-    protected List<T> findByProperty(String property, Object value)
-    {
+    protected List<T> findByProperty(String property, Object value) {
         Assert.hasText(property);
         return createCriteria(Restrictions.eq(property, value)).list();
     }
@@ -86,8 +82,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return A list of record that their property match value.
      */
     @Transactional(readOnly = true)
-    protected List<T> startsWith(String property, String value)
-    {
+    protected List<T> startsWith(String property, String value) {
         Assert.hasText(property);
         return createCriteria(Restrictions.like(property, value + "%")).list();
     }
@@ -102,15 +97,13 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return A list of record that their property match value.
      */
     @Transactional(readOnly = true)
-    protected List<T> contains(String property, String value)
-    {
+    protected List<T> contains(String property, String value) {
         Assert.hasText(property);
         return createCriteria(Restrictions.like(property, "%" + value + "%")).list();
     }
 
     /**
-     * Query for list of matched object by given string data. For this is backend matching
-     * method.<BR>
+     * Query for list of matched object by given string data. For this is backend matching method.<BR>
      * Pattern: (%value)
      *
      * @param property name of property
@@ -119,8 +112,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return A list of record that their property match value.
      */
     @Transactional(readOnly = true)
-    protected List<T> endsWith(String property, String value)
-    {
+    protected List<T> endsWith(String property, String value) {
         Assert.hasText(property);
         return createCriteria(Restrictions.like(property, "%" + value)).list();
     }
@@ -134,8 +126,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return An record that its property match value.
      */
     @Transactional(readOnly = true)
-    protected T findUniqueByProperty(String property, Object value)
-    {
+    protected T findUniqueByProperty(String property, Object value) {
         Assert.hasText(property);
         Assert.notNull(value);
         return (T) createCriteria(Restrictions.eq(property, value)).uniqueResult();
@@ -150,8 +141,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return matched record number.
      */
     @Transactional(readOnly = true)
-    protected int countByProperty(String property, Object value)
-    {
+    protected int countByProperty(String property, Object value) {
         Assert.hasText(property);
         Assert.notNull(value);
         return ((Number) (createCriteria(
@@ -167,8 +157,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return A list of record that match the given criterion
      */
     @Transactional(readOnly = true)
-    protected List findByCriteria(Criterion... criterion)
-    {
+    protected List findByCriteria(Criterion... criterion) {
         return createCriteria(criterion).list();
     }
 
@@ -180,8 +169,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return The updated record
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public T updateByUpdater(Updater<T> updater)
-    {
+    public T updateByUpdater(Updater<T> updater) {
         ClassMetadata cm = sessionFactory.getClassMetadata(
             getEntityClass());
         T bean = updater.getBean();
@@ -196,30 +184,23 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @param updater
      * @param po
      */
-    private void updaterCopyToPersistentObject(Updater<T> updater, T po, ClassMetadata cm)
-    {
+    private void updaterCopyToPersistentObject(Updater<T> updater, T po, ClassMetadata cm) {
         String[] propNames = cm.getPropertyNames();
         String identifierName = cm.getIdentifierPropertyName();
         T bean = updater.getBean();
         Object value;
-        for (String propName : propNames)
-        {
-            if (propName.equals(identifierName))
-            {
+        for (String propName : propNames) {
+            if (propName.equals(identifierName)) {
                 continue;
             }
-            try
-            {
+            try {
                 value = BeanUtils.getSimpleProperty(bean,
                                                     propName);
-                if (!updater.isUpdate(propName, value))
-                {
+                if (!updater.isUpdate(propName, value)) {
                     continue;
                 }
                 cm.setPropertyValue(po, propName, value);
-            }
-            catch (IllegalArgumentException | SecurityException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | HibernateException e)
-            {
+            } catch (IllegalArgumentException | SecurityException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | HibernateException e) {
                 throw new RuntimeException(
                     "copy property to persistent object failed: '"
                     + propName + "'", e);
@@ -233,11 +214,9 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @param criterions <p>
      * @return AN criteria object.
      */
-    protected Criteria createCriteria(Criterion... criterions)
-    {
+    protected Criteria createCriteria(Criterion... criterions) {
         Criteria criteria = getSession().createCriteria(getEntityClass());
-        for (Criterion c : criterions)
-        {
+        for (Criterion c : criterions) {
             criteria.add(c);
         }
         return criteria;
@@ -259,8 +238,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      * @return A page of target objects.
      */
     @Transactional(readOnly = true)
-    public Pagination getPage(int pageNo, int pageSize)
-    {
+    public Pagination getPage(int pageNo, int pageSize) {
         return findByCriteria(this.createCriteria(), pageNo, pageSize);
     }
 
@@ -273,8 +251,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      *
      * @return Bean with ID probably filled.
      */
-    public T save(T bean)
-    {
+    public T save(T bean) {
         getSession().save(bean);
         return bean;
     }
@@ -286,8 +263,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      *
      * @return The bean that is deleted.
      */
-    public T deleteByPK(ID id)
-    {
+    public T deleteByPK(ID id) {
         T entity = this.get(id);
         return this.delete(entity);
     }
@@ -299,8 +275,7 @@ public abstract class HibernateBaseDao<T, ID extends Serializable> extends Hiber
      *
      * @return The bean that is deleted.
      */
-    public T delete(T bean)
-    {
+    public T delete(T bean) {
         Assert.notNull(bean);
         getSession().delete(bean);
         return bean;
