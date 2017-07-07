@@ -1,6 +1,8 @@
 ssh-common
 ==========
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ml.rugal/ssh-common/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/ml.rugal/ssh-common)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ml.rugal/ssh-common/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/ml.rugal/ssh-common) 
+[![Javadocs](https://javadoc.io/badge/ml.rugal/ssh-common.svg)](https://javadoc.io/doc/ml.rugal/ssh-common)
+
 
 
 Maven configuration:  
